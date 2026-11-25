@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>By Lau — packaging</title>
+<style>
+@font-face { font-family: Bodoni; src: url(fonts/bodoni-moda-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-300-italic.woff2); font-weight: 300; font-style: italic; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-italic.woff2); font-weight: 500; font-style: italic; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-300-normal.woff2); font-weight: 300; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-400-normal.woff2); font-weight: 400; }
+@page { margin: 0; }
+html, body { margin: 0; background: transparent; }
+svg { display: block; }
+</style></head>
+<body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="brand.js"></script>
+<script>
+// 1 mm = 10 unités ; formats avec fond perdu (3 mm) quand le fond touche le bord
+const DOCS = {
+  'emblème':                [100, 100],
+  'emblème-blanc':          [100, 100],
+  'sceau-rond':             [100, 100],
+  'sceau-rond-blanc':       [100, 100],
+  'arche':                  [100, 140],
+  'arche-blanche':          [100, 140],
+  'sticker-rond':           [54, 54],
+  'papier-cadeau-bordeaux': [420, 594],
+  'papier-cadeau-creme':    [420, 594],
+  'ruban':                  [300, 25],
+  'etiquette-cadeau':       [56, 96],
+  'carte-merci-recto':      [154, 111],
+  'carte-merci-verso':      [154, 111],
+  'mini-carte-merci':       [91, 61],
+};
+const doc = new URLSearchParams(location.search).get('doc') || 'sceau-rond';
+const [Wmm, Hmm] = DOCS[doc];
+const W = Wmm * 10, H = Hmm * 10, s = document.getElementById('s');
+s.setAttribute('viewBox', `0 0 ${W} ${H}`); s.style.width = Wmm + 'mm'; s.style.height = Hmm + 'mm';
+const PH = 'WhatsApp : 07 77 05 76 83';
+const WHITE = '#FFFFFF', BD = '#5B0B19';
+const sans = (sz, ls = 0, w = 400) => ({ 'font-family': 'Josefin', 'font-weight': w, 'font-size': sz, 'letter-spacing': ls });
+const ital = (sz, w = 500) => ({ 'font-family': 'Cormorant', 'font-style': 'italic', 'font-weight': w, 'font-size': sz });
+
+function paperBg(dark, seed = 3) {
+  const defs = mk('defs', {}, s), u = uid('p');
+  const f = mk('filter', { id: 'gr' + u, x: 0, y: 0, width: '100%', height: '100%' }, defs);
+  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: .9, numOctaves: 2, seed }, f);
+  mk('feColorMatrix', { type: 'matrix', values: `0 0 0 0 ${dark ? 1 : .35}  0 0 0 0 ${dark ? 1 : .1}  0 0 0 0 ${dark ? 1 : .15}  0 0 0 ${dark ? .05 : .06} 0` }, f);
+  const rg = mk('radialGradient', { id: 'rg' + u, cx: '38%', cy: '38%', r: '85%' }, defs);
+  mk('stop', { offset: 0, 'stop-color': dark ? '#6E1222' : '#FFFFFF' }, rg);
+  mk('stop', { offset: 1, 'stop-color': dark ? '#3E0610' : '#F1E5E0' }, rg);
+  mk('rect', { width: W, height: H, fill: `url(#rg${u})` }, s);
+  mk('rect', { width: W, height: H, filter: `url(#gr${u})` }, s);
+}
+// emblème bL centré
+function emblem(parent, cx, cy, size, color = BD, bg = CREAM) {
+  const g = emblemLetters(parent, { color, bx: -.12, bs: .95, gap: 5 });
+  fitInto(g, cx, cy, size, size);
+  return g;
+}
+// sceau rond : double filet, emblème, BY LAU en haut, BIENVENUE CHEZ VOUS en bas (lisible)
+function roundSeal(parent, cx, cy, R, color = BD, bg = CREAM) {
+  const g = mk('g', {}, parent);
+  mk('circle', { cx, cy, r: R, fill: 'none', stroke: color, 'stroke-width': R * .012 }, g);
+  mk('circle', { cx, cy, r: R * .955, fill: 'none', stroke: color, 'stroke-width': R * .005 }, g);
+  mk('circle', { cx, cy, r: R * .64, fill: 'none', stroke: color, 'stroke-opacity': .55, 'stroke-width': R * .004 }, g);
+  emblem(g, cx, cy + R * .02, R * .86, color, bg);
+  const r1 = R * .8;
+  textOnPath(g, `M ${cx - r1} ${cy} A ${r1} ${r1} 0 0 1 ${cx + r1} ${cy}`, 'BY  LAU', Object.assign({ offset: '50%', anchor: 'middle', color, family: 'Josefin', weight: 400, size: R * .13, spacing: R * .07 }));
+  const r2 = R * .8 + R * .095;
+  textOnPath(g, `M ${cx - r2} ${cy} A ${r2} ${r2} 0 0 0 ${cx + r2} ${cy}`, 'BIENVENUE CHEZ VOUS', Object.assign({ offset: '50%', anchor: 'middle', color, family: 'Josefin', weight: 400, size: R * .082, spacing: R * .035 }));
+  [-1, 1].forEach(k => mk('circle', { cx: cx + k * r1 * .99, cy: cy + R * .01, r: R * .016, fill: color }, g));
+  return g;
+}
+// arche : cadre en arc (pour la face des sachets)
+function archMark(parent, cx, cy, w, h, color = BD, bg = CREAM) {
+  const g = mk('g', {}, parent), x0 = cx - w / 2, y0 = cy - h / 2, r = w / 2;
+  const arch = (i) => `M ${x0 + i} ${y0 + h - i} L ${x0 + i} ${y0 + r} A ${r - i} ${r - i} 0 0 1 ${x0 + w - i} ${y0 + r} L ${x0 + w - i} ${y0 + h - i} Z`;
+  mk('path', { d: arch(0), fill: 'none', stroke: color, 'stroke-width': w * .008 }, g);
+  mk('path', { d: arch(w * .035), fill: 'none', stroke: color, 'stroke-width': w * .003 }, g);
+  emblem(g, cx, y0 + r * 1.02, w * .5, color, bg);
+  T(g, cx, y0 + h * .73, 'by Lau', Object.assign(ital(w * .14), { fill: color }));
+  mk('line', { x1: cx - w * .12, x2: cx + w * .12, y1: y0 + h * .79, y2: y0 + h * .79, stroke: color, 'stroke-width': w * .003 }, g);
+  T(g, cx, y0 + h * .86, 'BIENVENUE CHEZ VOUS', Object.assign(sans(w * .045, w * .018), { fill: color }));
+  return g;
+}
+// motif papier cadeau : grille en quinconce emblème / "by Lau" / point
+function pattern(color, bg) {
+  const step = 900;
+  for (let y = -step / 2, row = 0; y < H + step; y += step * .62, row++)
+    for (let x = (row % 2) * step / 2 - step / 2; x < W + step; x += step) {
+      const k = (row % 2);
+      if (k === 0) emblem(s, x, y, 330, color, bg);
+      else { T(s, x, y + 40, 'by Lau', Object.assign(ital(150), { fill: color })); }
+      mk('circle', { cx: x + step / 2, cy: y, r: 9, fill: color, opacity: .7 }, s);
+    }
+}
+
+const BUILD = {
+  'emblème'() { emblem(s, W / 2, H / 2, 820); },
+  'emblème-blanc'() { emblem(s, W / 2, H / 2, 820, WHITE, BD); },
+  'sceau-rond'() { roundSeal(s, W / 2, H / 2, 460); },
+  'sceau-rond-blanc'() { roundSeal(s, W / 2, H / 2, 460, WHITE, BD); },
+  'arche'() { archMark(s, W / 2, H / 2, 860, 1300); },
+  'arche-blanche'() { archMark(s, W / 2, H / 2, 860, 1300, WHITE, BD); },
+  'sticker-rond'() {
+    mk('circle', { cx: W / 2, cy: H / 2, r: W / 2, fill: BD }, s);
+    roundSeal(s, W / 2, H / 2, 228, WHITE, BD);
+  },
+  'papier-cadeau-bordeaux'() { mk('rect', { width: W, height: H, fill: BD }, s); pattern(WHITE, BD); },
+  'papier-cadeau-creme'() { mk('rect', { width: W, height: H, fill: '#F7EEEA' }, s); pattern(BD, '#F7EEEA'); },
+  'ruban'() {
+    mk('rect', { width: W, height: H, fill: BD }, s);
+    let x = 40;
+    while (x < W) {
+      const t = T(s, x, H / 2 + 14, 'BY LAU', Object.assign(sans(46, 14), { fill: WHITE, 'text-anchor': 'start' }));
+      x += t.getComputedTextLength() + 60;
+      const e = emblem(s, x, H / 2, 120, WHITE, BD); x += 90;
+      const t2 = T(s, x, H / 2 + 12, 'bienvenue chez vous', Object.assign(ital(54), { fill: WHITE, 'text-anchor': 'start' }));
+      x += t2.getComputedTextLength() + 70;
+      emblem(s, x, H / 2, 120, WHITE, BD); x += 100;
+    }
+  },
+  'etiquette-cadeau'() {
+    paperBg(true, 5);
+    mk('circle', { cx: W / 2, cy: 110, r: 26, fill: '#F4EAE7', stroke: '#fff', 'stroke-opacity': .5, 'stroke-width': 3 }, s);
+    mk('rect', { x: 50, y: 50, width: W - 100, height: H - 100, rx: 10, fill: 'none', stroke: '#fff', 'stroke-opacity': .45, 'stroke-width': 2 }, s);
+    roundSeal(s, W / 2, 380, 170, WHITE, '#5a0d1c');
+    T(s, W / 2, 640, 'Pour', Object.assign(ital(52), { fill: WHITE }));
+    mk('line', { x1: 110, x2: W - 110, y1: 700, y2: 700, stroke: '#fff', 'stroke-opacity': .6, 'stroke-width': 2 }, s);
+    T(s, W / 2, 790, 'De la part de', Object.assign(ital(42), { fill: WHITE }));
+    mk('line', { x1: 110, x2: W - 110, y1: 850, y2: 850, stroke: '#fff', 'stroke-opacity': .6, 'stroke-width': 2 }, s);
+  },
+  'carte-merci-recto'() {
+    paperBg(true, 7);
+    const m = 70;
+    mk('rect', { x: m, y: m, width: W - 2 * m, height: H - 2 * m, fill: 'none', stroke: '#fff', 'stroke-opacity': .4, 'stroke-width': 2 }, s);
+    const g = logoPro(s, WHITE, 'rgba(255,255,255,.6)'); fitInto(g, W / 2, 430, 560, 560);
+    T(s, W / 2, 900, 'Merci', Object.assign(ital(110), { fill: WHITE }));
+    T(s, W / 2, 970, 'DE VOTRE CONFIANCE', Object.assign(sans(26, 12), { fill: WHITE, opacity: .9 }));
+  },
+  'carte-merci-verso'() {
+    paperBg(false, 9);
+    const m = 80;
+    mk('rect', { x: m, y: m, width: W - 2 * m, height: H - 2 * m, fill: 'none', stroke: BD, 'stroke-opacity': .3, 'stroke-width': 2 }, s);
+    emblem(s, W / 2, 240, 170);
+    T(s, W / 2, 420, 'Merci pour votre confiance,', ital(56));
+    ['Votre commande a été préparée à la main, avec soin', 'et une attention toute particulière.', 'Nous espérons qu’elle vous ressemble.']
+      .forEach((l, i) => T(s, W / 2, 510 + i * 52, l, Object.assign(sans(30, .4, 300), { fill: '#3B1A20' })));
+    T(s, W / 2, 740, 'Avec toute notre gratitude,', ital(42));
+    T(s, W / 2, 830, 'by Lau', Object.assign(ital(84, 300), {}));
+    T(s, W / 2, 940, PH, Object.assign(sans(22, 6), { fill: BD }));
+  },
+  'mini-carte-merci'() {
+    paperBg(false, 11);
+    mk('rect', { x: 60, y: 60, width: W - 120, height: H - 120, fill: 'none', stroke: BD, 'stroke-opacity': .3, 'stroke-width': 1.6 }, s);
+    emblem(s, 230, H / 2, 260);
+    mk('line', { x1: 400, x2: 400, y1: 160, y2: H - 160, stroke: BD, 'stroke-opacity': .35, 'stroke-width': 1.5 }, s);
+    T(s, 640, 260, 'Merci', Object.assign(ital(110), {}));
+    T(s, 640, 330, 'POUR VOTRE COMMANDE', Object.assign(sans(19, 7), {}));
+    T(s, 640, 430, 'bienvenue chez vous', Object.assign(ital(34), { opacity: .9 }));
+  },
+};
+document.fonts.ready.then(() => { BUILD[doc](); window.DOC_SIZE = [Wmm, Hmm]; window.READY = true; });
+</script>
+</body></html>

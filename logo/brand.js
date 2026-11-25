@@ -156,3 +156,56 @@ function luxeBackground(parent, w, h, { dark = true, frame = true, petals = true
   return bg;
 }
 const T = (parent, x, y, txt, o = {}) => mk('text', Object.assign({ x, y, 'text-anchor': 'middle', 'font-family': 'Cormorant', 'font-weight': 500, fill: BDX }, o), parent, txt);
+
+// ---------- emblème bL (mêmes lettres que le logo : b italique Cormorant + L Bodoni) ----------
+function emblemLetters(parent, { color = BDX, F = 300, bx = -.12, by = 0, bs = .95, gap = 8 } = {}) {
+  // Entrelacs par découpe réelle (masque) : le L est évidé autour du b -> transparent, net sur tout fond.
+  const g = mk('g', {}, parent), id = uid('m');
+  const defs = mk('defs', {}, g);
+  const m = mk('mask', { id, maskUnits: 'userSpaceOnUse', x: -F * 2, y: -F * 2, width: F * 5, height: F * 5 }, defs);
+  mk('rect', { x: -F * 2, y: -F * 2, width: F * 5, height: F * 5, fill: '#fff' }, m);
+  const bAttrs = { 'font-family': 'Cormorant', 'font-style': 'italic', 'font-weight': 500, 'font-size': F * bs, x: F * bx, y: F * by };
+  mk('text', Object.assign({ fill: '#000', stroke: '#000', 'stroke-width': gap * 2, 'stroke-linejoin': 'round' }, bAttrs), m, 'b');
+  mk('text', { 'font-family': 'Bodoni', 'font-size': F, fill: color, x: 0, y: 0, mask: `url(#${id})` }, g, 'L');
+  mk('text', Object.assign({ fill: color }, bAttrs), g, 'b');
+  return g;
+}
+
+// ---------- logo principal affiné (cf. logo-pro.html) ----------
+function logoPro(parent, color = BDX, hair = 'rgba(91,11,25,.55)') {
+  const g = mk('g', {}, parent);
+  const F = 330;
+  const lau = mk('text', { 'font-family': 'Bodoni', 'font-size': F, fill: color, x: 0, y: 0 }, g);
+  mk('tspan', {}, lau, 'L');
+  mk('tspan', { dx: -F * .085 }, lau, 'a');
+  mk('tspan', { dx: -F * .012 }, lau, 'u');
+  const lb = lau.getBBox();
+  const by = mk('text', { 'font-family': 'Cormorant', 'font-style': 'italic', 'font-weight': 500, 'font-size': F * .98, fill: color, x: 0, y: 0 }, g);
+  mk('tspan', {}, by, 'b');
+  mk('tspan', { dx: -F * .01 }, by, 'y');
+  // position de "by" : se termine au-dessus du "u", ligne de base posée juste au-dessus de la hauteur de capitale du L
+  const capTop = lb.y + lb.height * .02;
+  const bb0 = by.getBBox();
+  const byX = lb.x + lb.width / 2 - bb0.width / 2 + F * .18;
+  const byY = capTop + F * 0;           // la jambe du y plonge dans l'espace libre au-dessus du « a »
+  by.setAttribute('x', byX); by.setAttribute('y', byY);
+  const bb = by.getBBox();
+  // filet
+  const xr = lb.x + lb.width + F * .14;
+  const top = bb.y + F * .06, base = 0;   // de la hampe du b à la ligne de base de Lau
+  mk('line', { x1: xr, y1: top, x2: xr, y2: base, stroke: hair, 'stroke-width': 1.4 }, g);
+  mk('circle', { cx: xr, cy: top - 9, r: 2.6, fill: color }, g);
+  mk('circle', { cx: xr, cy: base + 9, r: 2.6, fill: color }, g);
+  // ENTREPRISE justifié
+  const vg = mk('g', { transform: `translate(${xr + F * .085} ${top}) rotate(90)` }, g);
+  const ent = mk('text', { 'font-family': 'Josefin', 'font-weight': 400, 'font-size': F * .105, fill: color, x: 0, y: 0 }, vg, 'ENTREPRISE');
+  const len = base - top, w0 = ent.getComputedTextLength();
+  ent.setAttribute('letter-spacing', (len - w0) / 9.5);
+  // arc concentrique à la panse du b
+  const bBowlCx = bb.x + F * .2, bBowlCy = bb.y + bb.height * .47, r = bb.height * .62;
+  const a0 = 196 * Math.PI / 180, a1 = 318 * Math.PI / 180;
+  textOnPath(g, `M ${bBowlCx + r * Math.cos(a0)} ${bBowlCy + r * Math.sin(a0)} A ${r} ${r} 0 0 1 ${bBowlCx + r * Math.cos(a1)} ${bBowlCy + r * Math.sin(a1)}`,
+    'BIENVENUE CHEZ VOUS', { size: F * .062, family: 'Josefin', weight: 400, spacing: F * .028, offset: '50%', anchor: 'middle', color });
+  return g;
+}
+

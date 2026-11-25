@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>By Lau — packaging</title>
+<style>
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-italic.woff2); font-weight: 500; font-style: italic; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-400-normal.woff2); font-weight: 400; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2400px; height: 1600px; overflow: hidden; position: relative;
+  background: radial-gradient(120% 90% at 45% 35%, #FBF5F2 0%, #EEDFDA 70%, #E3CDC7 100%); }
+.sh { position: absolute; filter: drop-shadow(0 26px 30px rgba(70, 10, 25, .22)) drop-shadow(0 4px 8px rgba(70, 10, 25, .12)); }
+img.sh { display: block; }
+.title { position: absolute; left: 70px; top: 50px; font-family: Cormorant; font-style: italic; font-size: 56px; color: #5B0B19; }
+.title small { display: block; font-family: Josefin; font-style: normal; font-size: 17px; letter-spacing: 8px; margin-top: 4px; }
+</style></head><body>
+<div class="title">by Lau<small>PACKAGING &amp; PAPETERIE</small></div>
+<!-- papier cadeau bordeaux posé en fond -->
+<div class="sh" style="left:-80px; top:930px; width:900px; height:820px; transform:rotate(9deg); background:url(packaging/by-lau-papier-cadeau-bordeaux.png) center/cover no-repeat;"></div>
+<!-- ruban -->
+<img class="sh" src="packaging/by-lau-ruban.png" style="left:-40px; top:850px; width:1300px; transform:rotate(-5deg)">
+<svg class="sh" id="bag1" style="left:120px; top:170px" width="470" height="680"></svg>
+<svg class="sh" id="bag2" style="left:620px; top:330px" width="360" height="520"></svg>
+<svg class="sh" id="box" style="left:1080px; top:300px" width="560" height="500"></svg>
+<svg class="sh" id="pouch" style="left:1720px; top:240px" width="420" height="520"></svg>
+<img class="sh" src="packaging/by-lau-etiquette-cadeau.png" style="left:1560px; top:620px; width:170px; transform:rotate(14deg)">
+<img class="sh" src="packaging/by-lau-carte-merci-recto.png" style="left:930px; top:980px; width:560px; transform:rotate(-4deg)">
+<img class="sh" src="packaging/by-lau-carte-merci-verso.png" style="left:1440px; top:1010px; width:560px; transform:rotate(3deg)">
+<img class="sh" src="packaging/by-lau-mini-carte-merci.png" style="left:2010px; top:1180px; width:340px; transform:rotate(-7deg)">
+<img class="sh" src="packaging/by-lau-sticker-rond.png" style="left:2130px; top:880px; width:190px">
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+function bag(svg, { w, h, body, side, handle, img, imgW, imgY }) {
+  const g = mk('g', {}, svg), bw = w * .84;
+  const hd = x0 => `M ${x0} ${h * .2} C ${x0} ${-h * .01}, ${x0 + bw * .4} ${-h * .01}, ${x0 + bw * .4} ${h * .2}`;
+  mk('path', { d: hd(bw * .34), fill: 'none', stroke: handle, 'stroke-width': w * .022, 'stroke-linecap': 'round', opacity: .8 }, g);
+  mk('path', { d: `M ${bw} ${h * .16} L ${w} ${h * .145} L ${w} ${h * .975} L ${bw} ${h}`, fill: side }, g);
+  mk('path', { d: `M ${bw + (w - bw) / 2} ${h * .155} L ${bw + (w - bw) / 2} ${h * .99}`, stroke: '#000', 'stroke-opacity': .12, 'stroke-width': 2 }, g);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .84, fill: body }, g);
+  const d = mk('defs', {}, g), lg = mk('linearGradient', { id: svg.id + 'l', x1: 0, x2: 1 }, d);
+  mk('stop', { offset: 0, 'stop-color': '#fff', 'stop-opacity': .1 }, lg); mk('stop', { offset: .6, 'stop-color': '#fff', 'stop-opacity': 0 }, lg); mk('stop', { offset: 1, 'stop-color': '#000', 'stop-opacity': .1 }, lg);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .84, fill: `url(#${svg.id}l)` }, g);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .035, fill: '#000', opacity: .08 }, g);
+  mk('path', { d: hd(bw * .3), fill: 'none', stroke: handle, 'stroke-width': w * .022, 'stroke-linecap': 'round' }, g);
+  [bw * .3, bw * .7].forEach(x => mk('circle', { cx: x, cy: h * .2, r: w * .012, fill: '#000', opacity: .35 }, g));
+  mk('image', { href: img, x: (bw - imgW) / 2, y: imgY, width: imgW }, g);
+}
+bag(document.getElementById('bag1'), { w: 470, h: 680, body: '#5B0B19', side: '#430610', handle: '#F2E2DE', img: 'packaging/by-lau-arche-blanche.png', imgW: 250, imgY: 200 });
+bag(document.getElementById('bag2'), { w: 360, h: 520, body: '#F8F1EE', side: '#E7D8D3', handle: '#5B0B19', img: 'packaging/by-lau-sceau-rond.png', imgW: 190, imgY: 190 });
+// boîte cadeau emballée (papier crème) + ruban bordeaux
+(function () {
+  const s = document.getElementById('box'), d = mk('defs', {}, s);
+  const p = mk('pattern', { id: 'pp', patternUnits: 'userSpaceOnUse', width: 260, height: 368 }, d);
+  mk('image', { href: 'packaging/by-lau-papier-cadeau-creme.png', width: 260, height: 368 }, p);
+  const top = 'M 40 150 L 300 60 L 540 130 L 280 230 Z', front = 'M 40 150 L 280 230 L 280 480 L 40 390 Z', side = 'M 280 230 L 540 130 L 540 370 L 280 480 Z';
+  [top, front, side].forEach((dd, i) => { mk('path', { d: dd, fill: 'url(#pp)' }, s); mk('path', { d: dd, fill: '#000', opacity: [0, .06, .16][i] }, s); });
+  const R = '#5B0B19';
+  mk('path', { d: 'M 160 190 L 420 95 M 160 190 L 160 435 M 420 95 L 420 300', stroke: R, 'stroke-width': 30, fill: 'none' }, s);
+  mk('path', { d: 'M 170 105 L 410 195 M 410 195 L 410 440', stroke: R, 'stroke-width': 30, fill: 'none', opacity: .95 }, s);
+  mk('path', { d: 'M 288 146 C 300 190, 270 215, 250 236', stroke: R, 'stroke-width': 16, fill: 'none', 'stroke-linecap': 'butt' }, s);
+  mk('path', { d: 'M 292 146 C 300 185, 335 205, 352 222', stroke: R, 'stroke-width': 16, fill: 'none' }, s);
+  mk('ellipse', { cx: 236, cy: 122, rx: 60, ry: 26, transform: 'rotate(-28 236 122)', fill: 'none', stroke: R, 'stroke-width': 17 }, s);
+  mk('ellipse', { cx: 346, cy: 120, rx: 60, ry: 26, transform: 'rotate(24 346 120)', fill: 'none', stroke: '#4A0813', 'stroke-width': 17 }, s);
+  mk('ellipse', { cx: 290, cy: 146, rx: 20, ry: 16, fill: '#430610' }, s);
+})();
+// pochette plate fermée par le sticker
+(function () {
+  const s = document.getElementById('pouch');
+  mk('rect', { x: 20, y: 40, width: 380, height: 470, rx: 6, fill: '#F7EFEC' }, s);
+  mk('path', { d: 'M 20 46 L 210 230 L 400 46 Z', fill: '#EFE2DE' }, s);
+  mk('path', { d: 'M 20 46 L 210 230 L 400 46', stroke: '#000', 'stroke-opacity': .08, 'stroke-width': 2, fill: 'none' }, s);
+  mk('image', { href: 'packaging/by-lau-sticker-rond.png', x: 150, y: 170, width: 120 }, s);
+  mk('text', { x: 210, y: 430, 'text-anchor': 'middle', 'font-family': 'Cormorant', 'font-style': 'italic', 'font-size': 44, fill: '#5B0B19' }, s).textContent = 'by Lau';
+})();
+Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => i.onload = i.onerror = r))).then(() => setTimeout(() => window.READY = true, 600));
+</script></body></html>

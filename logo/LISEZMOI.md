@@ -16,3 +16,7 @@ Textes à personnaliser (numéro, compte, ville) : constantes `PH`, `IG`, `CITY`
 | etiquette-merci | 60×40 mm (+2 mm) |
 | papier-de-soie | A4, motif répétable |
 | sceau, sceau-fond-bordeaux, sceau-encre-blanche, monogramme | logos seuls (marquage sachets, tampon, broderie) |
+
+## Packaging (emblème bL)
+- `kit.html?doc=…` + `export-kit.cjs` → `packaging/` (PDF + PNG) : emblème, sceau rond, arche, sticker, papier cadeau (2 coloris, 42×59,4 cm), ruban (25 mm), étiquette cadeau, cartes merci, mini-carte.
+- `board-packaging.html` : planche de présentation packaging.
