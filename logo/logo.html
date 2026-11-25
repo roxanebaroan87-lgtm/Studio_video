@@ -89,7 +89,78 @@ function monogram(g, R) {
 
 function band(w, h, bw, color) { mk('rect', { x: w - bw, y: 0, width: bw, height: h, fill: color }); }
 
+// ---------- fond luxe : drapé de satin + reflets + pétales de rose ----------
+function rnd(i) { const x = Math.sin(i * 91.7 + 13.3) * 43758.5453; return x - Math.floor(x); }
+function luxeBackground(w, h, dark) {
+  const defs = mk('defs', {});
+  // satin
+  const f = mk('filter', { id: 'satin', x: 0, y: 0, width: '100%', height: '100%', 'color-interpolation-filters': 'sRGB' }, defs);
+  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.0009 0.0040', numOctaves: 3, seed: 11, result: 'n' }, f);
+  const li = mk('feDiffuseLighting', { in: 'n', surfaceScale: 34, diffuseConstant: 1.05, 'lighting-color': '#fff', result: 'l' }, f);
+  mk('feDistantLight', { azimuth: 225, elevation: 42 }, li);
+  mk('feGaussianBlur', { stdDeviation: 5 }, f);
+  mk('feColorMatrix', { type: 'matrix', values: dark
+    ? '.62 0 0 0 .02  .05 0 0 0 0  .10 0 0 0 .02  0 0 0 1 0'
+    : '.30 0 0 0 .72  .42 0 0 0 .56  .42 0 0 0 .55  0 0 0 1 0' }, f);
+  // flous
+  [3, 8, 16, 28].forEach(s => { const b = mk('filter', { id: 'b' + s, x: '-50%', y: '-50%', width: '200%', height: '200%' }, defs); mk('feGaussianBlur', { stdDeviation: s }, b); });
+  // dégradés pétales
+  const pg = (id, c1, c2) => { const g = mk('radialGradient', { id, cx: '35%', cy: '40%', r: '75%' }, defs); mk('stop', { offset: 0, 'stop-color': c1 }, g); mk('stop', { offset: 1, 'stop-color': c2 }, g); };
+  pg('petalR', '#A3192F', '#4A0612'); pg('petalW', '#FFFFFF', '#EBD9D6'); pg('petalP', '#E7B9BF', '#B9707C');
+  const vg = mk('radialGradient', { id: 'vign', cx: '50%', cy: '48%', r: '75%' }, defs);
+  mk('stop', { offset: .55, 'stop-color': dark ? '#000' : '#fff', 'stop-opacity': 0 }, vg);
+  mk('stop', { offset: 1, 'stop-color': dark ? '#1a0005' : '#5A0A17', 'stop-opacity': dark ? .7 : .18 }, vg);
+  const glow = mk('radialGradient', { id: 'glow', cx: '50%', cy: '50%', r: '50%' }, defs);
+  mk('stop', { offset: 0, 'stop-color': '#fff', 'stop-opacity': dark ? .22 : .75 }, glow);
+  mk('stop', { offset: 1, 'stop-color': '#fff', 'stop-opacity': 0 }, glow);
+
+  const bg = mk('g', {});
+  mk('rect', { width: w, height: h, fill: dark ? '#3A0510' : '#F3E6E3' }, bg);
+  const sat = mk('g', { transform: `rotate(-24 ${w / 2} ${h / 2})` }, bg);
+  mk('rect', { x: -w * .6, y: -h * .6, width: w * 2.2, height: h * 2.2, filter: 'url(#satin)' }, sat);
+  // halo de lumière derrière le logo
+  mk('ellipse', { cx: w * .46, cy: h * .5, rx: w * .55, ry: h * .42, fill: 'url(#glow)' }, bg);
+  // reflets bokeh
+  for (let i = 0; i < 26; i++) {
+    const r = 14 + rnd(i) * 60, x = rnd(i + 40) * w, y = rnd(i + 80) * h;
+    mk('circle', { cx: x, cy: y, r, fill: dark ? '#FFD9DF' : '#FFFFFF', opacity: (dark ? .07 : .35) + rnd(i + 5) * .25, filter: `url(#b${r > 45 ? 16 : 8})` }, bg);
+  }
+  // pétales (profondeur de champ : grands = flous, petits = nets)
+  const petal = 'M0 0 C 26 -46, 96 -50, 118 -6 C 126 18, 92 46, 52 40 C 26 36, 8 20, 0 0 Z';
+  const spots = [[.06, .1, 1.9, 28, 'R'], [.0, .78, 2.3, 28, 'R'], [.78, .93, 2.0, 16, 'R'], [.2, .95, 1.1, 8, 'P'], [.72, .05, 1.3, 16, 'P'],
+                 [.15, .22, .7, 3, 'R'], [.62, .86, .6, 3, 'R'], [.08, .62, .55, 3, 'W'], [.55, .14, .5, 3, 'R'], [.86, .4, .8, 8, 'W'], [.33, .88, .45, 3, 'P'], [.9, .7, .5, 3, 'R']];
+  spots.forEach(([x, y, s, bl, c], i) => {
+    const g = mk('g', { transform: `translate(${x * w} ${y * h}) rotate(${rnd(i) * 360}) scale(${s})`, filter: `url(#b${bl})`, opacity: dark && c === 'R' ? .75 : .92 }, bg);
+    mk('path', { d: petal, fill: `url(#petal${dark && c === 'R' ? 'P' : c})` }, g);
+    mk('path', { d: 'M8 2 C 40 -10, 80 -14, 108 -4', stroke: '#fff', 'stroke-opacity': .25, 'stroke-width': 3, fill: 'none' }, g);
+  });
+  // voile (comme le lavis blanc du modèle) + vignettage + cadre fin
+  mk('rect', { width: w, height: h, fill: dark ? '#2A0009' : '#FFFFFF', opacity: dark ? .28 : .30 }, bg);
+  mk('rect', { width: w, height: h, fill: 'url(#vign)' }, bg);
+  mk('rect', { x: 38, y: 38, width: w - 76, height: h - 76, fill: 'none', stroke: dark ? '#fff' : '#5A0A17', 'stroke-opacity': dark ? .35 : .28, 'stroke-width': 1.2 }, bg);
+  mk('rect', { x: 50, y: 50, width: w - 100, height: h - 100, fill: 'none', stroke: dark ? '#fff' : '#5A0A17', 'stroke-opacity': dark ? .18 : .14, 'stroke-width': .8 }, bg);
+  return bg;
+}
+
+function luxe(w, h, dark, withBand) {
+  size(w, h);
+  if (dark) page.classList.add('dark');
+  luxeBackground(w, h, dark);
+  const area = withBand ? w - 108 : w;
+  if (withBand) band(w, h, 108, BDX);
+  const g = mk('g', {}); mainLogo(g);
+  const b = g.getBBox(); const s = Math.min((area * .72) / b.width, (h * .6) / b.height);
+  g.setAttribute('transform', `translate(${area / 2 - (b.x + b.width / 2) * s} ${h / 2 - (b.y + b.height / 2) * s}) scale(${s})`);
+  // logo légèrement transparent : le fond se devine à travers les lettres
+  g.style.opacity = dark ? .9 : .88;
+  g.style.mixBlendMode = dark ? 'screen' : 'multiply';
+}
+
 document.fonts.ready.then(() => {
+  if (v === 'luxe-clair') { luxe(1080, 1350, false, true); window.READY = true; return; }
+  if (v === 'luxe-bordeaux') { luxe(1080, 1350, true, false); window.READY = true; return; }
+  if (v === 'luxe-carre') { luxe(1080, 1080, false, false); window.READY = true; return; }
+  if (v === 'luxe-story') { luxe(1080, 1920, true, false); window.READY = true; return; }
   if (v === 'presentation') {
     size(1080, 1350);
     page.style.background = 'radial-gradient(110% 80% at 30% 35%, #FFFFFF 0%, #F7EFEB 58%, #EEE0DA 100%)';
