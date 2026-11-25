@@ -451,6 +451,79 @@
     };
   };
 
+  // Photo plein écran avec zoom lent (effet Ken Burns) et étiquettes
+  SCENES.photo = (root, s) => {
+    const ph = el('div', 'photo', `<img src="${esc(s.image)}">`, root);
+    const img = $('img', ph);
+    const shade = el('div', 'photo-shade', '', root);
+    let title = null;
+    if (s.title) { title = el('div', 'title light', md(s.title), root); title.style.top = s.titleTop || '150px'; title.dataset.base = 'translateX(-50%)'; }
+    const tags = (s.tags || []).map((t, i) => {
+      const e = el('div', 'tag', md(t.text || t), root);
+      Object.assign(e.style, { left: (t.x ?? [290, 300, 40][i % 3]) + 'px', top: (t.y ?? [330, 470, 560][i % 3]) + 'px' });
+      return e;
+    });
+    const z0 = s.zoomFrom ?? 1.14, z1 = s.zoomTo ?? 1.0;
+    const tagAt = s.tagAt ?? 1.0, gap = s.tagGap ?? .8;
+    return lt => {
+      ph.style.opacity = clamp(prog(lt, 0, .35));
+      const k = easeInOut(clamp(lt / (s.duration || 4)));
+      img.style.transform = `scale(${lerp(z0, z1, k)})`;
+      shade.style.opacity = ph.style.opacity;
+      if (title) pop(title, lt, .3, { y: 14 });
+      tags.forEach((e, i) => { pop(e, lt, tagAt + i * gap, { y: 12, s0: .5 }); e.style.transform += ` translateY(${Math.sin(lt * 2 + i) * 3}px)`; });
+    };
+  };
+
+  const fmtPrice = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  SCENES.offer = (root, s, cfg) => {
+    const title = el('div', 'title', md(s.title || 'Les *prix*'), root); title.style.top = '176px';
+    const cur = s.currency || 'F';
+    const cards = (s.offers || []).slice(0, 2).map((o, i) => {
+      const e = el('div', 'offer' + (o.highlight ? ' hi' : ''), `${o.ribbon ? `<div class="ribbon">${esc(o.ribbon)}</div>` : ''}
+        <div class="jars">${Array.from({ length: o.qty || 1 }, () => `<div class="j">${jarSVG(cfg.product)}</div>`).join('')}</div>
+        <div class="q">${md(o.label || `${o.qty || 1} pot${(o.qty || 1) > 1 ? 's' : ''}`)}</div>
+        <div class="p"><span class="v">0</span> <span class="c">${esc(cur)}</span></div>`, root);
+      e.style.left = i === 0 ? '34px' : '280px';
+      return { e, o, v: $('.v', e) };
+    });
+    let gift = null;
+    if (s.gift) gift = el('div', 'gift', `<div class="gi">🎁</div><div><div class="gt">${md(s.gift.title)}</div><div class="gd">${md(s.gift.desc || '')}</div></div>`, root);
+    const at = s.offersAt ?? .4, gap = s.offerGap ?? 1.4;
+    return lt => {
+      pop(title, lt, 0, { y: 10 });
+      cards.forEach(({ e, o, v }, i) => {
+        const t0 = (o.at ?? at + i * gap);
+        pop(e, lt, t0, { y: 50, s0: .8 });
+        v.textContent = fmtPrice(o.price * easeOut(prog(lt, t0 + .2, .8)));
+        if (o.highlight) e.style.transform += ` scale(${1 + .025 * Math.sin(lt * 4) * prog(lt, t0 + 1, .3)})`;
+      });
+      if (gift) {
+        pop(gift, lt, s.gift.at ?? 3.2, { y: 30, s0: .7 });
+        $('.gi', gift).style.transform = `rotate(${Math.sin(lt * 5) * 10}deg) scale(${1 + .08 * Math.sin(lt * 6)})`;
+      }
+    };
+  };
+
+  SCENES.whatsapp = (root, s) => {
+    const title = el('div', 'title', md(s.title || 'Commande sur\n*WhatsApp*'), root); title.style.top = '190px';
+    const logo = el('div', 'wa', '<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" fill="#25D366"/><path d="M9.2 7.6c-.3 0-.7.1-.9.5-.3.4-.8 1.1-.8 2.2 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.6 2.7.8 3.3.3 3.8-.1.5-.5.8-1.3.8-1.7 0-.3-.2-.4-.5-.6l-1.8-.9c-.3-.1-.5-.1-.7.2l-.8 1c-.2.2-.4.2-.7.1-.4-.2-1.5-.6-2.6-1.7-.9-.8-1.5-1.9-1.7-2.2-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-.8-2c-.2-.6-.5-.6-.7-.6z" fill="#fff"/></svg>', root);
+    const num = el('div', 'phone-num', '', root);
+    const digits = String(s.number || '');
+    let chips = (s.chips || []).map((c, i) => { const e = el('div', 'chip', md(c), root); e.style.top = `${530 + i * 46}px`; e.dataset.base = 'translateX(-50%)'; return e; });
+    const numAt = s.numberAt ?? .9;
+    return lt => {
+      pop(title, lt, 0, { y: 12 });
+      const lp = pop(logo, lt, .25, { s0: .3 });
+      logo.style.transform += ` scale(${1 + .06 * Math.sin(lt * 5) * lp})`;
+      const n = Math.floor(Math.max(0, lt - numAt) * 14);
+      num.textContent = digits.slice(0, n) || ' ';
+      num.style.opacity = prog(lt, numAt - .1, .2);
+      num.classList.toggle('glow', n >= digits.length && Math.floor(lt * 2.5) % 2 === 0);
+      chips.forEach((c, i) => pop(c, lt, (s.chipsAt ?? 2.2) + i * .5, { y: 10, s0: .6 }));
+    };
+  };
+
   // ---------- montage ----------
   const M = { cfg: null, scenes: [], captions: [], duration: 0, totalSteps: 5 };
 

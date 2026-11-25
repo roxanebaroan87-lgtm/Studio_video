@@ -1,0 +1,421 @@
+{
+  "fps": 30,
+  "brand": {
+    "name": "Gommage gel au café",
+    "handle": "WhatsApp 07 77 05 76 83"
+  },
+  "sticker": "bean",
+  "avatar": null,
+  "product": {
+    "name": "GEL AU CAFÉ",
+    "sub": "gommage corps",
+    "jar": "#F4F0EA",
+    "lid": "#E6DFD6",
+    "label": "#C8862A",
+    "ink": "#FFFFFF"
+  },
+  "woman": {
+    "skin": "#7A4B30",
+    "skinShade": "#633B25",
+    "hair": "#1E120B",
+    "top": "#F3E6D6",
+    "lips": "#7A2A2A"
+  },
+  "theme": {
+    "background": "#F6EFE6",
+    "grid": "rgba(140, 100, 70, .10)",
+    "circle": "#F0D9B5",
+    "accent": "#B06A17",
+    "dark": "#3B2418",
+    "text": "#2B1B12",
+    "muted": "#8D7767",
+    "arch1": "#F1DDBF",
+    "arch2": "#D9A867"
+  },
+  "audio": {
+    "musique": null,
+    "volumeMusique": 0.2,
+    "bruitages": true,
+    "voix": "pub-gel-cafe-voix.wav"
+  },
+  "scenes": [
+    {
+      "type": "photo",
+      "image": "../assets/gel-cafe.jpg",
+      "title": "Le gommage\n*gel au café*",
+      "tags": [
+        {
+          "text": "✦ **sans sucre**",
+          "x": 300,
+          "y": 380
+        },
+        {
+          "text": "✦ gel **doré**",
+          "x": 318,
+          "y": 470
+        },
+        {
+          "text": "✦ effet **brillant**",
+          "x": 300,
+          "y": 560
+        }
+      ],
+      "tagAt": 2.2,
+      "tagGap": 0.9,
+      "icon": "eye",
+      "voix": [
+        {
+          "texte": "Regarde-moi cette texture !",
+          "sous_titres": [
+            "Regarde-moi",
+            "cette **texture** !"
+          ]
+        },
+        {
+          "texte": "Un vrai gel au café, tout doré, qui brille.",
+          "sous_titres": [
+            "un vrai **gel au café**",
+            "tout **doré**",
+            "qui **brille**"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "Regarde-moi",
+          "at": 0.35
+        },
+        {
+          "text": "cette **texture** !",
+          "at": 0.741
+        },
+        {
+          "text": "un vrai **gel au café**",
+          "at": 2.215
+        },
+        {
+          "text": "tout **doré**",
+          "at": 3.861
+        },
+        {
+          "text": "qui **brille**",
+          "at": 4.519
+        }
+      ],
+      "duration": 5.627
+    },
+    {
+      "type": "portrait",
+      "title": "Zéro sucre,\n*zéro grain*",
+      "badges": [],
+      "beans": true,
+      "icon": "drop",
+      "voix": [
+        {
+          "texte": "Ici, pas de sucre, pas de grains qui grattent.",
+          "sous_titres": [
+            "pas de **sucre**",
+            "pas de grains **qui grattent**"
+          ]
+        },
+        {
+          "texte": "Juste un gel au café qui glisse sur ta peau.",
+          "sous_titres": [
+            "juste un **gel au café**",
+            "qui **glisse** sur ta peau"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "pas de **sucre**",
+          "at": 0.35
+        },
+        {
+          "text": "pas de grains **qui grattent**",
+          "at": 1.348
+        },
+        {
+          "text": "juste un **gel au café**",
+          "at": 3.31
+        },
+        {
+          "text": "qui **glisse** sur ta peau",
+          "at": 4.502
+        }
+      ],
+      "duration": 6.143
+    },
+    {
+      "type": "ingredients",
+      "title": "Pourquoi tu vas *l’adorer*",
+      "items": [
+        {
+          "emoji": "🧼",
+          "name": "Il *nettoie*",
+          "desc": "la peau en profondeur"
+        },
+        {
+          "emoji": "✨",
+          "name": "Il *unifie*",
+          "desc": "aide à atténuer taches et boutons"
+        },
+        {
+          "emoji": "🤎",
+          "name": "Il *sublime*",
+          "desc": "une peau douce, nette et lumineuse"
+        }
+      ],
+      "icon": "sparkle",
+      "voix": [
+        {
+          "texte": "Il nettoie ta peau en profondeur,",
+          "sous_titres": [
+            "il **nettoie** ta peau",
+            "en **profondeur**"
+          ]
+        },
+        {
+          "texte": "et t'aide à te débarrasser des boutons, des taches, et de toutes les petites imperfections du corps.",
+          "sous_titres": [
+            "adieu les **boutons**",
+            "les **taches**",
+            "et les petites **imperfections**"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "il **nettoie** ta peau",
+          "at": 0.35
+        },
+        {
+          "text": "en **profondeur**",
+          "at": 1.54
+        },
+        {
+          "text": "adieu les **boutons**",
+          "at": 2.435
+        },
+        {
+          "text": "les **taches**",
+          "at": 4.181
+        },
+        {
+          "text": "et les petites **imperfections**",
+          "at": 5.345
+        }
+      ],
+      "duration": 8.123
+    },
+    {
+      "type": "routine",
+      "title": "Sous la *douche*",
+      "steps": [
+        {
+          "icon": "drop",
+          "name": "Mouille",
+          "desc": "ta peau sous l'eau tiède"
+        },
+        {
+          "icon": "hand",
+          "name": "Masse",
+          "desc": "le gel en petits cercles"
+        },
+        {
+          "icon": "wave",
+          "name": "Rince",
+          "desc": "et admire l'éclat"
+        }
+      ],
+      "icon": "drop",
+      "voix": [
+        {
+          "texte": "Sous la douche, tu mouilles ta peau,",
+          "sous_titres": [
+            "tu **mouilles** ta peau"
+          ]
+        },
+        {
+          "texte": "tu masses le gel,",
+          "sous_titres": [
+            "tu **masses** le gel"
+          ]
+        },
+        {
+          "texte": "et tu rinces.",
+          "sous_titres": [
+            "et tu **rinces**"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "tu **mouilles** ta peau",
+          "at": 0.35
+        },
+        {
+          "text": "tu **masses** le gel",
+          "at": 2.546
+        },
+        {
+          "text": "et tu **rinces**",
+          "at": 3.939
+        }
+      ],
+      "duration": 5.357
+    },
+    {
+      "type": "portrait",
+      "title": "Le *résultat* ?",
+      "badges": [
+        "✦ peau **plus nette**",
+        "✦ taches **atténuées**",
+        "✦ éclat **doré**"
+      ],
+      "badgeAt": 0.6,
+      "badgeGap": 1.0,
+      "icon": "heart",
+      "voix": [
+        {
+          "texte": "Résultat : une peau plus nette, plus douce, et toute lumineuse.",
+          "sous_titres": [
+            "une peau **plus nette**",
+            "plus **douce**",
+            "et toute **lumineuse**"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "une peau **plus nette**",
+          "at": 0.35
+        },
+        {
+          "text": "plus **douce**",
+          "at": 2.158
+        },
+        {
+          "text": "et toute **lumineuse**",
+          "at": 3.061
+        }
+      ],
+      "duration": 4.867
+    },
+    {
+      "type": "offer",
+      "title": "Les *prix*",
+      "currency": "F",
+      "offers": [
+        {
+          "qty": 1,
+          "label": "1 pot",
+          "price": 6000,
+          "at": 0.4
+        },
+        {
+          "qty": 2,
+          "label": "2 *pots*",
+          "price": 10000,
+          "highlight": true,
+          "ribbon": "MEILLEURE OFFRE",
+          "at": 2.6
+        }
+      ],
+      "gift": {
+        "title": "Gant de gommage **OFFERT**",
+        "desc": "à partir de 2 pots achetés",
+        "at": 5.6
+      },
+      "icon": "bag",
+      "voix": [
+        {
+          "texte": "Le pot est à six mille francs.",
+          "sous_titres": [
+            "le pot à **6 000 F**"
+          ]
+        },
+        {
+          "texte": "Et les deux pots, c'est seulement dix mille francs !",
+          "sous_titres": [
+            "et les **2 pots**",
+            "seulement **10 000 F** !"
+          ]
+        },
+        {
+          "texte": "À partir de deux pots, ton gant de gommage corps est offert.",
+          "sous_titres": [
+            "dès **2 pots**",
+            "ton **gant de gommage**",
+            "est **offert** 🎁"
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "text": "le pot à **6 000 F**",
+          "at": 0.35
+        },
+        {
+          "text": "et les **2 pots**",
+          "at": 2.524
+        },
+        {
+          "text": "seulement **10 000 F** !",
+          "at": 3.587
+        },
+        {
+          "text": "dès **2 pots**",
+          "at": 5.216
+        },
+        {
+          "text": "ton **gant de gommage**",
+          "at": 6.237
+        },
+        {
+          "text": "est **offert** 🎁",
+          "at": 7.597
+        }
+      ],
+      "duration": 9.067
+    },
+    {
+      "type": "whatsapp",
+      "title": "Commande sur\n*WhatsApp*",
+      "number": "07 77 05 76 83",
+      "numberAt": 1.0,
+      "chips": [
+        "1 pot **6 000 F**",
+        "2 pots **10 000 F** + gant offert 🎁"
+      ],
+      "chipsAt": 3.2,
+      "icon": "chat",
+      "voix": [
+        {
+          "texte": "Pour commander, écris-moi sur WhatsApp au : zéro sept, soixante-dix-sept, zéro cinq, soixante-seize, quatre-vingt-trois.",
+          "sous_titres": [
+            "pour **commander**",
+            "écris-moi sur **WhatsApp**",
+            "**07 77 05 76 83**"
+          ]
+        }
+      ],
+      "voixFin": 2.0,
+      "captions": [
+        {
+          "text": "pour **commander**",
+          "at": 0.35
+        },
+        {
+          "text": "écris-moi sur **WhatsApp**",
+          "at": 1.718
+        },
+        {
+          "text": "**07 77 05 76 83**",
+          "at": 3.771
+        }
+      ],
+      "duration": 9.191
+    }
+  ]
+}
