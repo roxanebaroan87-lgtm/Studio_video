@@ -48,5 +48,16 @@ bag(document.getElementById('bag2'), { w: 520, h: 750, body: '#F8F1EE', side: '#
   mk('image', { href: 'packaging/by-lau-sticker-rond.png', x: 150, y: 170, width: 120 }, s);
   mk('text', { x: 210, y: 430, 'text-anchor': 'middle', 'font-family': 'Cormorant', 'font-style': 'italic', 'font-size': 44, fill: '#5B0B19' }, s).textContent = 'by Lau';
 })();
+const only = new URLSearchParams(location.search).get('only');
+if (only) {
+  document.body.style.width = '1400px'; document.body.style.height = '1600px';
+  document.querySelectorAll('.lbl').forEach(e => e.remove());
+  document.querySelector('.title small').textContent = {bag1:'GRAND SACHET',bag2:'SACHET BLANC',pouch:'POCHETTE'}[only];
+  ['bag1','bag2','pouch'].forEach(id => { const e = document.getElementById(id); if (id !== only) e.remove(); else {
+    const sc = {bag1: 1.2, bag2: 1.35, pouch: 1.9}[id], w = +e.getAttribute('width'), h = +e.getAttribute('height');
+    if (!e.getAttribute('viewBox')) e.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    e.setAttribute('width', w * sc); e.setAttribute('height', h * sc);
+    e.style.left = (1400 - w * sc) / 2 + 'px'; e.style.top = (1600 - h * sc) / 2 + 60 + 'px'; } });
+}
 Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => i.onload = i.onerror = r))).then(() => setTimeout(() => window.READY = true, 600));
 </script></body></html>
