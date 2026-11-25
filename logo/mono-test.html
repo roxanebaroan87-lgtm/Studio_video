@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-italic.woff2); font-weight: 500; font-style: italic; }
+body{margin:0}</style></head><body>
+<svg id="s" width="1200" height="800" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="brand.js"></script>
+<script>
+document.fonts.ready.then(()=>{
+const s=document.getElementById('s');
+mk('rect',{width:600,height:800,fill:CREAM},s); mk('rect',{x:600,width:600,height:800,fill:BDX},s);
+monogram(s,{x:300,y:400,size:460});
+seal(s,{x:900,y:400,w:440,h:640});
+window.READY=true;});
+</script></body></html>

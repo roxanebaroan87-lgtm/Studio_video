@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>By Lau — supports</title>
+<style>
+@font-face { font-family: Bodoni; src: url(fonts/bodoni-moda-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-300-italic.woff2); font-weight: 300; font-style: italic; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-italic.woff2); font-weight: 500; font-style: italic; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-300-normal.woff2); font-weight: 300; }
+@page { margin: 0; }
+html, body { margin: 0; padding: 0; background: transparent; }
+svg { display: block; }
+</style></head>
+<body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="brand.js"></script>
+<script>
+// Unités : 1 mm = 10 unités. Les formats incluent 3 mm de fond perdu quand le fond va jusqu'au bord.
+const DOCS = {
+  'affiche-A3':       [303, 426],
+  'carte-visite-recto': [91, 61],
+  'carte-visite-verso': [91, 61],
+  'carte-merci-recto':  [154, 111],
+  'carte-merci-verso':  [154, 111],
+  'etiquette-ronde':    [54, 54],
+  'etiquette-merci':    [64, 44],
+  'papier-de-soie':     [210, 297],
+  'sceau':              [120, 160],
+  'sceau-fond-bordeaux': [120, 160],
+  'sceau-encre-blanche': [120, 160],
+  'monogramme':         [100, 100],
+};
+const doc = new URLSearchParams(location.search).get('doc') || 'affiche-A3';
+const [Wmm, Hmm] = DOCS[doc];
+const W = Wmm * 10, H = Hmm * 10, s = document.getElementById('s');
+s.setAttribute('viewBox', `0 0 ${W} ${H}`);
+s.style.width = Wmm + 'mm'; s.style.height = Hmm + 'mm';
+const PH = 'WhatsApp : votre numéro', IG = '@bylau', CITY = 'votre ville';
+const sans = (sz, ls = 0) => ({ 'font-family': 'Josefin', 'font-weight': 300, 'font-size': sz, 'letter-spacing': ls });
+const ital = sz => ({ 'font-family': 'Cormorant', 'font-style': 'italic', 'font-weight': 500, 'font-size': sz });
+
+const BUILD = {
+  'affiche-A3'() {
+    luxeBackground(s, W, H, { dark: true });
+    seal(s, { x: W / 2, y: 1500, w: 1500, h: 2050, color: '#fff' });
+    T(s, W / 2, 2930, 'L’élégance,', Object.assign(ital(250), { fill: '#fff' }));
+    T(s, W / 2, 3180, 'chez vous.', Object.assign(ital(250), { fill: '#F3C9D1' }));
+    mk('line', { x1: W / 2 - 300, x2: W / 2 + 300, y1: 3420, y2: 3420, stroke: '#fff', 'stroke-opacity': .5, 'stroke-width': 3 }, s);
+    T(s, W / 2, 3560, 'COMMANDES & RENSEIGNEMENTS', Object.assign(sans(70, 16), { fill: '#fff' }));
+    T(s, W / 2, 3720, PH, Object.assign(ital(110), { fill: '#fff' }));
+    T(s, W / 2, 3860, `${IG}  ·  ${CITY}`, Object.assign(sans(64, 6), { fill: '#fff', opacity: .85 }));
+  },
+  'carte-visite-recto'() {
+    luxeBackground(s, W, H, { dark: true, petals: false, frame: false });
+    const g = mk('g', {}, s); wordmark(g, { color: '#fff', line: 'rgba(255,255,255,.5)' });
+    fitInto(g, W / 2, H / 2 + 10, 520, 380);
+  },
+  'carte-visite-verso'() {
+    mk('rect', { width: W, height: H, fill: CREAM }, s);
+    mk('rect', { x: 60, y: 60, width: W - 120, height: H - 120, fill: 'none', stroke: BDX, 'stroke-opacity': .25, 'stroke-width': 2 }, s);
+    monogram(s, { x: 230, y: H / 2, size: 330 });
+    mk('line', { x1: 420, x2: 420, y1: 150, y2: H - 150, stroke: BDX, 'stroke-opacity': .35, 'stroke-width': 1.5 }, s);
+    const L = { 'text-anchor': 'start' };
+    T(s, 470, 200, 'By Lau', Object.assign({}, L, { 'font-family': 'Bodoni', 'font-size': 64 }));
+    T(s, 472, 245, 'ENTREPRISE', Object.assign({}, L, sans(22, 9)));
+    T(s, 472, 330, PH, Object.assign({}, L, sans(24, 1)));
+    T(s, 472, 372, IG, Object.assign({}, L, sans(24, 1)));
+    T(s, 472, 414, CITY, Object.assign({}, L, sans(24, 1)));
+    T(s, 472, 490, 'bienvenue chez vous', Object.assign({}, L, ital(30)));
+  },
+  'carte-merci-recto'() {
+    luxeBackground(s, W, H, { dark: true });
+    monogram(s, { x: W / 2, y: 300, size: 290, color: '#fff' });
+    T(s, W / 2, 690, 'Merci', Object.assign(ital(260), { fill: '#fff' }));
+    T(s, W / 2, 820, 'DE VOTRE CONFIANCE', Object.assign(sans(38, 14), { fill: '#fff' }));
+  },
+  'carte-merci-verso'() {
+    mk('rect', { width: W, height: H, fill: CREAM }, s);
+    mk('rect', { x: 90, y: 90, width: W - 180, height: H - 180, fill: 'none', stroke: BDX, 'stroke-opacity': .3, 'stroke-width': 2 }, s);
+    mk('rect', { x: 110, y: 110, width: W - 220, height: H - 220, fill: 'none', stroke: BDX, 'stroke-opacity': .15, 'stroke-width': 1.2 }, s);
+    monogram(s, { x: W / 2, y: 230, size: 150 });
+    T(s, W / 2, 400, 'Chère cliente, cher client,', ital(54));
+    ['Merci d’avoir choisi By Lau.', 'Votre commande a été préparée avec soin et beaucoup d’amour.', 'J’espère qu’elle vous apportera autant de joie', 'que j’en ai eu à la préparer pour vous.']
+      .forEach((l, i) => T(s, W / 2, 490 + i * 52, l, Object.assign(sans(30, .5), { fill: '#3B1A20' })));
+    T(s, W / 2, 790, 'À très vite,', ital(44));
+    T(s, W / 2, 870, 'Lau', Object.assign(ital(80), { 'font-weight': 300 }));
+    T(s, W / 2, 960, `${IG}  ·  ${PH}`, sans(24, 3));
+  },
+  'etiquette-ronde'() {
+    const c = W / 2;
+    mk('circle', { cx: c, cy: c, r: c, fill: BDX }, s);
+    mk('circle', { cx: c, cy: c, r: 222, fill: 'none', stroke: '#fff', 'stroke-opacity': .55, 'stroke-width': 2 }, s);
+    monogram(s, { x: c, y: c, size: 250, color: '#fff' });
+    const r = 190, d = `M ${c - r} ${c} A ${r} ${r} 0 1 1 ${c + r} ${c} A ${r} ${r} 0 1 1 ${c - r} ${c}`;
+    const t = textOnPath(s, d, 'BY LAU  ✦  BIENVENUE CHEZ VOUS  ✦  ', { size: 25, family: 'Josefin', weight: 300, spacing: 5, color: '#fff' });
+    const len = 2 * Math.PI * r, l0 = t.getComputedTextLength(); t.setAttribute('letter-spacing', 5 + (len - l0) / t.textContent.length);
+  },
+  'etiquette-merci'() {
+    mk('rect', { width: W, height: H, rx: 60, fill: CREAM }, s);
+    mk('rect', { x: 30, y: 30, width: W - 60, height: H - 60, rx: 40, fill: 'none', stroke: BDX, 'stroke-width': 2 }, s);
+    monogram(s, { x: W / 2, y: 120, size: 110 });
+    T(s, W / 2, 285, 'Merci !', ital(110));
+    T(s, W / 2, 360, 'FAIT AVEC AMOUR', sans(22, 9));
+  },
+  'papier-de-soie'() {
+    mk('rect', { width: W, height: H, fill: '#F6ECEA' }, s);
+    const step = 300;
+    for (let y = 0, row = 0; y < H + step; y += step * .8, row++)
+      for (let x = (row % 2) * step / 2; x < W + step; x += step) {
+        const g = mk('g', { opacity: .55 }, s);
+        if ((row + Math.round(x / step)) % 2) monogram(g, { x, y, size: 120, color: BDX });
+        else T(g, x, y + 14, 'By Lau', Object.assign(ital(46), { fill: BDX }));
+      }
+  },
+  'sceau'() { seal(s, { x: W / 2, y: H / 2, w: 1000, h: 1400, color: BDX }); },
+  'sceau-encre-blanche'() { seal(s, { x: W / 2, y: H / 2, w: 1000, h: 1400, color: '#fff' }); },
+  'sceau-fond-bordeaux'() { mk('rect', { width: W, height: H, fill: BDX }, s); seal(s, { x: W / 2, y: H / 2, w: 1000, h: 1400, color: '#fff' }); },
+  'monogramme'() { monogram(s, { x: W / 2, y: H / 2, size: 900 }); },
+};
+document.fonts.ready.then(() => { BUILD[doc](); window.DOC_SIZE = [Wmm, Hmm]; window.READY = true; });
+</script>
+</body></html>
