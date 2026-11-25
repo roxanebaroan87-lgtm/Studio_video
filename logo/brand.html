@@ -34,7 +34,7 @@ const [Wmm, Hmm] = DOCS[doc];
 const W = Wmm * 10, H = Hmm * 10, s = document.getElementById('s');
 s.setAttribute('viewBox', `0 0 ${W} ${H}`);
 s.style.width = Wmm + 'mm'; s.style.height = Hmm + 'mm';
-const PH = 'WhatsApp : votre numéro', IG = '@bylau', CITY = 'votre ville';
+const PH = 'WhatsApp : 07 77 05 76 83', IG = '', CITY = '';  // IG = compte réseaux, CITY = ville (vides = non affichés)
 const sans = (sz, ls = 0) => ({ 'font-family': 'Josefin', 'font-weight': 300, 'font-size': sz, 'letter-spacing': ls });
 const ital = sz => ({ 'font-family': 'Cormorant', 'font-style': 'italic', 'font-weight': 500, 'font-size': sz });
 
@@ -47,7 +47,7 @@ const BUILD = {
     mk('line', { x1: W / 2 - 300, x2: W / 2 + 300, y1: 3420, y2: 3420, stroke: '#fff', 'stroke-opacity': .5, 'stroke-width': 3 }, s);
     T(s, W / 2, 3560, 'COMMANDES & RENSEIGNEMENTS', Object.assign(sans(70, 16), { fill: '#fff' }));
     T(s, W / 2, 3720, PH, Object.assign(ital(110), { fill: '#fff' }));
-    T(s, W / 2, 3860, `${IG}  ·  ${CITY}`, Object.assign(sans(64, 6), { fill: '#fff', opacity: .85 }));
+    if (IG || CITY) T(s, W / 2, 3860, [IG, CITY].filter(Boolean).join('  ·  '), Object.assign(sans(64, 6), { fill: '#fff', opacity: .85 }));
   },
   'carte-visite-recto'() {
     luxeBackground(s, W, H, { dark: true, petals: false, frame: false });
@@ -62,9 +62,8 @@ const BUILD = {
     const L = { 'text-anchor': 'start' };
     T(s, 470, 200, 'By Lau', Object.assign({}, L, { 'font-family': 'Bodoni', 'font-size': 64 }));
     T(s, 472, 245, 'ENTREPRISE', Object.assign({}, L, sans(22, 9)));
-    T(s, 472, 330, PH, Object.assign({}, L, sans(24, 1)));
-    T(s, 472, 372, IG, Object.assign({}, L, sans(24, 1)));
-    T(s, 472, 414, CITY, Object.assign({}, L, sans(24, 1)));
+    T(s, 472, 330, 'COMMANDES', Object.assign({}, L, sans(18, 6)));
+    [PH, IG, CITY].filter(Boolean).forEach((t, i) => T(s, 472, 372 + i * 42, t, Object.assign({}, L, sans(26, 1))));
     T(s, 472, 490, 'bienvenue chez vous', Object.assign({}, L, ital(30)));
   },
   'carte-merci-recto'() {
@@ -83,7 +82,7 @@ const BUILD = {
       .forEach((l, i) => T(s, W / 2, 490 + i * 52, l, Object.assign(sans(30, .5), { fill: '#3B1A20' })));
     T(s, W / 2, 790, 'À très vite,', ital(44));
     T(s, W / 2, 870, 'Lau', Object.assign(ital(80), { 'font-weight': 300 }));
-    T(s, W / 2, 960, `${IG}  ·  ${PH}`, sans(24, 3));
+    T(s, W / 2, 960, [IG, PH].filter(Boolean).join('  ·  '), sans(24, 3));
   },
   'etiquette-ronde'() {
     const c = W / 2;
