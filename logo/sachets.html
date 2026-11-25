@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>By Lau — packaging</title>
+<style>
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-italic.woff2); font-weight: 500; font-style: italic; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-400-normal.woff2); font-weight: 400; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2160px; height: 1500px; overflow: hidden; position: relative;
+  background: radial-gradient(120% 90% at 45% 35%, #FBF5F2 0%, #EEDFDA 70%, #E3CDC7 100%); }
+.sh { position: absolute; filter: drop-shadow(0 26px 30px rgba(70, 10, 25, .22)) drop-shadow(0 4px 8px rgba(70, 10, 25, .12)); }
+img.sh { display: block; }
+.title { position: absolute; left: 70px; top: 50px; font-family: Cormorant; font-style: italic; font-size: 56px; color: #5B0B19; }
+.title small { display: block; font-family: Josefin; font-style: normal; font-size: 17px; letter-spacing: 8px; margin-top: 4px; }
+.lbl{position:absolute;top:1370px;font-family:Josefin;font-size:18px;letter-spacing:6px;color:#7C3A47;text-transform:uppercase}
+</style></head><body>
+<div class="title">by Lau<small>SACHETS</small></div>
+<svg class="sh" id="bag1" style="left:180px; top:420px" width="620" height="900"></svg>
+<svg class="sh" id="bag2" style="left:900px; top:570px" width="520" height="750"></svg>
+<svg class="sh" id="pouch" style="left:1560px; top:700px" width="420" height="520" viewBox="0 0 420 520" ></svg>
+<div class="lbl" style="left:180px">Grand sachet bordeaux</div>
+<div class="lbl" style="left:900px">Sachet blanc · sceau</div>
+<div class="lbl" style="left:1580px">Pochette · sticker</div>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+function bag(svg, { w, h, body, side, handle, img, imgW, imgY }) {
+  const g = mk('g', {}, svg), bw = w * .84;
+  const hd = x0 => `M ${x0} ${h * .2} C ${x0} ${-h * .01}, ${x0 + bw * .4} ${-h * .01}, ${x0 + bw * .4} ${h * .2}`;
+  mk('path', { d: hd(bw * .34), fill: 'none', stroke: handle, 'stroke-width': w * .022, 'stroke-linecap': 'round', opacity: .8 }, g);
+  mk('path', { d: `M ${bw} ${h * .16} L ${w} ${h * .145} L ${w} ${h * .975} L ${bw} ${h}`, fill: side }, g);
+  mk('path', { d: `M ${bw + (w - bw) / 2} ${h * .155} L ${bw + (w - bw) / 2} ${h * .99}`, stroke: '#000', 'stroke-opacity': .12, 'stroke-width': 2 }, g);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .84, fill: body }, g);
+  const d = mk('defs', {}, g), lg = mk('linearGradient', { id: svg.id + 'l', x1: 0, x2: 1 }, d);
+  mk('stop', { offset: 0, 'stop-color': '#fff', 'stop-opacity': .1 }, lg); mk('stop', { offset: .6, 'stop-color': '#fff', 'stop-opacity': 0 }, lg); mk('stop', { offset: 1, 'stop-color': '#000', 'stop-opacity': .1 }, lg);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .84, fill: `url(#${svg.id}l)` }, g);
+  mk('rect', { x: 0, y: h * .16, width: bw, height: h * .035, fill: '#000', opacity: .08 }, g);
+  mk('path', { d: hd(bw * .3), fill: 'none', stroke: handle, 'stroke-width': w * .022, 'stroke-linecap': 'round' }, g);
+  [bw * .3, bw * .7].forEach(x => mk('circle', { cx: x, cy: h * .2, r: w * .012, fill: '#000', opacity: .35 }, g));
+  mk('image', { href: img, x: (bw - imgW) / 2, y: imgY, width: imgW }, g);
+}
+bag(document.getElementById('bag1'), { w: 620, h: 900, body: '#5B0B19', side: '#430610', handle: '#F2E2DE', img: 'packaging/by-lau-arche-blanche.png', imgW: 330, imgY: 265 });
+bag(document.getElementById('bag2'), { w: 520, h: 750, body: '#F8F1EE', side: '#E7D8D3', handle: '#5B0B19', img: 'packaging/by-lau-sceau-rond.png', imgW: 270, imgY: 280 });
+// pochette plate fermée par le sticker
+(function () {
+  const s = document.getElementById('pouch');
+  mk('rect', { x: 20, y: 40, width: 380, height: 470, rx: 6, fill: '#F7EFEC' }, s);
+  mk('path', { d: 'M 20 46 L 210 230 L 400 46 Z', fill: '#EFE2DE' }, s);
+  mk('path', { d: 'M 20 46 L 210 230 L 400 46', stroke: '#000', 'stroke-opacity': .08, 'stroke-width': 2, fill: 'none' }, s);
+  mk('image', { href: 'packaging/by-lau-sticker-rond.png', x: 150, y: 170, width: 120 }, s);
+  mk('text', { x: 210, y: 430, 'text-anchor': 'middle', 'font-family': 'Cormorant', 'font-style': 'italic', 'font-size': 44, fill: '#5B0B19' }, s).textContent = 'by Lau';
+})();
+Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => i.onload = i.onerror = r))).then(() => setTimeout(() => window.READY = true, 600));
+</script></body></html>
