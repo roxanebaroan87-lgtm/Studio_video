@@ -1,0 +1,77 @@
+{
+  "fps": 30,
+  "brand": { "name": "Mon Studio Montage", "handle": "@toncompte" },
+  "sticker": "grape",
+  "avatar": null,
+  "theme": {
+    "accent": "#B0125B",
+    "dark": "#3E0A22",
+    "circle": "#F6C9D8",
+    "background": "#F7F2EA"
+  },
+  "audio": {
+    "voix": null,
+    "musique": null,
+    "volumeMusique": 0.25,
+    "bruitages": true
+  },
+  "totalSteps": 5,
+  "scenes": [
+    {
+      "type": "hook", "duration": 3.2,
+      "title": "Toute cette vidéo", "accent": "= *Claude*", "accentAt": 1.0, "views": "2,5 M vues",
+      "icon": "eye",
+      "captions": ["Toute cette vidéo", "je l’ai faite **avec Claude**", "voici comment faire **pareil**"]
+    },
+    {
+      "type": "chat", "duration": 3.6, "step": 1,
+      "greeting": "Bonjour !",
+      "icon": "download",
+      "captions": [{ "text": "**Étape 1.**", "at": 0 }, { "text": "tu vas sur **Claude**", "at": 1.0 }, { "text": "rien **à télécharger**", "at": 2.2 }]
+    },
+    {
+      "type": "chat", "duration": 7.0, "step": 2,
+      "label": "MON STYLE", "prompt": "vintage, vert sauge & beige, typo machine à écrire",
+      "typeAt": 0.6, "cps": 18,
+      "result": { "kind": "landscape", "at": 3.2, "text": "ma routine", "textAt": 5.0 },
+      "icon": "palette",
+      "captions": [{ "text": "**Étape 2.**", "at": 0 }, { "text": "ton **style**", "at": 0.9 }, { "text": "un style **vintage**", "at": 1.9 }, { "text": "vert, **beige**", "at": 3.0 }, { "text": "avec une **typo**", "at": 4.2 }, { "text": "à **écrire**", "at": 5.4 }]
+    },
+    {
+      "type": "chat", "duration": 5.6, "step": 3,
+      "label": "MON PRODUIT", "prompt": "une bougie qui tourne avec des étincelles",
+      "typeAt": 0.5, "cps": 18,
+      "result": { "kind": "product", "at": 2.2, "text": "NOUVEAUTÉ", "textAt": 2.6, "sparkAt": 3.8 },
+      "icon": "sparkle",
+      "captions": [{ "text": "**Étape 3.**", "at": 0 }, { "text": "un **effet**", "at": 0.8 }, { "text": "mon **produit**", "at": 1.8 }, { "text": "qui **tourne**", "at": 2.8 }, { "text": "avec des **étincelles**", "at": 3.8 }]
+    },
+    {
+      "type": "voice", "duration": 3.6, "step": 4, "recAt": 0.4,
+      "icon": "mic",
+      "captions": [{ "text": "**Étape 4.**", "at": 0 }, { "text": "tu **enregistres**", "at": 1.0 }, { "text": "et tu lui **envoies**", "at": 2.3 }]
+    },
+    {
+      "type": "storyboard", "duration": 5.4, "step": 5, "label": "TA VOIX",
+      "text": "ma routine du matin", "hillsAt": 1.6, "textAt": 3.0,
+      "icon": "scissors",
+      "captions": [{ "text": "**Étape 5.**", "at": 0 }, { "text": "il va **couper**", "at": 0.8 }, { "text": "créer les **scènes**", "at": 1.8 }, { "text": "les **sous-titres**", "at": 2.8 }, { "text": "et les **bruitages**", "at": 3.8 }]
+    },
+    {
+      "type": "cards", "duration": 4.6,
+      "title": "Tous mes *prompts*",
+      "cards": [
+        { "kicker": "LE GUIDE", "title": "Pas à pas,\n*sans rien installer*" },
+        { "kicker": "LE CARNET", "title": "Prompts &\n*effets prêts*", "dark": true }
+      ],
+      "badge": "Mon Studio\n*Montage*", "badgeAt": 2.6,
+      "icon": "box",
+      "captions": [{ "text": "Tous mes **prompts**", "at": 0 }, { "text": "sont dans **mon kit**", "at": 1.4 }, { "text": "**Mon Studio** Montage", "at": 2.8 }]
+    },
+    {
+      "type": "cta", "duration": 3.6,
+      "top": "commente", "word": "MONTAGE", "pill": "je débarque dans tes DM ✦", "pillAt": 1.3,
+      "icon": "heart",
+      "captions": [{ "text": "commente **MONTAGE**", "at": 0 }, { "text": "je t’envoie **tout en DM**", "at": 1.6 }]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Studio Montage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="engine.css">
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div class="grid"></div>
+    <div id="content">
+      <div class="circle" id="circle"></div>
+      <div id="scenes"></div>
+      <div class="steps" id="steps"></div>
+      <div class="sticker" id="sticker"></div>
+      <div class="caption" id="caption"></div>
+      <div class="bubble" id="bubble"></div>
+    </div>
+    <div class="brand" id="brand"></div>
+    <img class="avatar" id="avatar" alt="">
+  </div>
+</div>
+<div id="controls">
+  <button id="play">▶︎ Lecture</button>
+  <input id="seek" type="range" min="0" max="1000" value="0">
+  <span id="time">0.0 s</span>
+</div>
+<script src="engine.js"></script>
+</body>
+</html>

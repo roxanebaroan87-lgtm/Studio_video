@@ -1,0 +1,16 @@
+{
+  "name": "studio-video",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Générateur de montages verticaux style tuto (HTML animé → MP4)",
+  "scripts": {
+    "preview": "node tools/server.mjs",
+    "render": "node tools/render.mjs"
+  },
+  "dependencies": {
+    "@fontsource/dm-sans": "5.1.0",
+    "@fontsource/playfair-display": "5.1.0",
+    "@fontsource/special-elite": "5.1.0"
+  }
+}
