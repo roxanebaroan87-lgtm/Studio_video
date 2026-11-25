@@ -1,0 +1,88 @@
+{
+  "fps": 30,
+  "brand": { "name": "Café Glow", "handle": "@cafeglow" },
+  "sticker": "bean",
+  "avatar": null,
+  "product": { "name": "CAFÉ GLOW", "sub": "gommage au café", "jar": "#6B3F23", "lid": "#2E1B12", "label": "#EFE2CF", "ink": "#3B2418" },
+  "woman": { "skin": "#B97A56", "skinShade": "#A0654A", "hair": "#2A1810", "top": "#F3E6D6", "lips": "#8E3B3B" },
+  "theme": {
+    "background": "#F6EFE6",
+    "grid": "rgba(140, 100, 70, .10)",
+    "circle": "#EBD6C2",
+    "accent": "#8A4B2A",
+    "dark": "#3B2418",
+    "text": "#2B1B12",
+    "muted": "#8D7767",
+    "arch1": "#EAD5BF",
+    "arch2": "#CFA987"
+  },
+  "audio": { "musique": null, "volumeMusique": 0.2, "bruitages": true },
+  "scenes": [
+    {
+      "type": "portrait",
+      "title": "Ta peau mérite\nun vrai *réveil*",
+      "badges": [],
+      "icon": "cup",
+      "voix": [
+        { "texte": "Tu connais le secret d'une peau toute douce ?", "sous_titres": ["Tu connais **le secret**", "d'une peau **toute douce** ?"] },
+        { "texte": "Le café.", "sous_titres": ["**Le café.**"] }
+      ]
+    },
+    {
+      "type": "product",
+      "title": "*Café Glow*", "subtitle": "GOMMAGE CORPS AU CAFÉ",
+      "icon": "sparkle",
+      "voix": [
+        { "texte": "Voici Café Glow, mon gommage corps au café.", "sous_titres": ["Voici **Café Glow**", "mon gommage **au café**"] }
+      ]
+    },
+    {
+      "type": "ingredients",
+      "title": "3 ingrédients, *c’est tout*",
+      "items": [
+        { "emoji": "☕", "name": "Café *arabica*", "desc": "moulu finement, il exfolie en douceur" },
+        { "emoji": "🍯", "name": "Sucre de *canne*", "desc": "pour un grain fondant" },
+        { "emoji": "🥥", "name": "Huile de *coco*", "desc": "nourrit et laisse la peau satinée" }
+      ],
+      "icon": "leaf",
+      "voix": [
+        { "texte": "Du café arabica, du sucre de canne, et de l'huile de coco.", "sous_titres": ["du **café arabica**", "du **sucre de canne**", "et de l'**huile de coco**"] },
+        { "texte": "C'est tout.", "sous_titres": ["**C'est tout.**"] }
+      ]
+    },
+    {
+      "type": "routine",
+      "title": "Sous la *douche*",
+      "steps": [
+        { "icon": "drop", "name": "Humidifie", "desc": "ta peau sous l'eau tiède" },
+        { "icon": "hand", "name": "Masse", "desc": "en petits cercles" },
+        { "icon": "wave", "name": "Rince", "desc": "et profite du parfum" }
+      ],
+      "icon": "drop",
+      "voix": [
+        { "texte": "Sous la douche, tu humidifies ta peau,", "sous_titres": ["tu **humidifies**", "ta peau"] },
+        { "texte": "tu masses en petits cercles,", "sous_titres": ["tu **masses**", "en petits cercles"] },
+        { "texte": "et tu rinces.", "sous_titres": ["et tu **rinces**"] }
+      ]
+    },
+    {
+      "type": "portrait",
+      "title": "Le résultat ?",
+      "badges": ["✦ peau **toute douce**", "✦ teint **lumineux**", "✦ odeur **gourmande**"],
+      "badgeAt": 0.6, "badgeGap": 1.1,
+      "icon": "heart",
+      "voix": [
+        { "texte": "Résultat : une peau toute douce, un teint lumineux, et une odeur de café gourmande toute la journée.", "sous_titres": ["une peau **toute douce**", "un teint **lumineux**", "et une odeur **gourmande**", "toute la **journée**"] }
+      ]
+    },
+    {
+      "type": "cta",
+      "top": "commande le tien", "word": "CAFÉ GLOW", "pill": "lien en bio ✦",
+      "icon": "bag",
+      "voix": [
+        { "texte": "Clique sur le lien en bio, et offre à ta peau son café du matin.", "sous_titres": ["clique sur le **lien en bio**", "et offre à ta peau", "son **café du matin**"] }
+      ],
+      "voixFin": 1.2
+    }
+  ]
+}

@@ -61,3 +61,28 @@ Icônes : `palette`, `mic`, `eye`, `sparkle`, `download`, `box`, `heart`, `plus`
 ### Caler sur ta voix off
 Enregistre ta voix, écoute-la et note quand chaque phrase commence : règle `duration` de chaque scène
 et `at` de chaque sous-titre en conséquence, puis vérifie en prévisualisation (la voix est jouée en même temps).
+
+## Publicité produit (ex. gommage au café)
+Exemple complet : `scripts/pub-gommage-cafe.json`. Scènes supplémentaires :
+
+| `type` | Contenu | Clés propres |
+|---|---|---|
+| `portrait` | Femme illustrée qui tient le pot, pastilles d'arguments | `title`, `badges[]`, `badgeAt`, `badgeGap`, `beans` |
+| `product` | Le pot arrive avec une explosion de grains de café | `title`, `subtitle` |
+| `ingredients` | 3 cartes ingrédients | `title`, `items[]` (`emoji`, `name`, `desc`) |
+| `routine` | 3 étapes d'utilisation | `title`, `steps[]` (`icon`, `name`, `desc`) |
+
+Réglages : `product` (nom, sous-titre et couleurs du pot), `woman` (peau, cheveux, haut, lèvres).
+
+## Voix off automatique
+La voix est générée par synthèse vocale (Piper, voix féminine française « siwis »), puis les durées des scènes
+et les sous-titres sont calés dessus automatiquement.
+
+```bash
+pip install piper-tts                     # (dans un venv de préférence)
+mkdir -p voices && curl -L https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-fr-siwis-medium.tar.gz | tar xz -C voices
+python3 tools/voix.py scripts/pub-gommage-cafe.json --vitesse 0.92 --pause 0.3
+node tools/render.mjs scripts/build/pub-gommage-cafe.json out/pub-gommage-cafe.mp4
+```
+
+Dans le JSON, chaque scène a une liste `voix` : `{ "texte": "phrase prononcée", "sous_titres": ["morceau **1**", "morceau 2"] }`.

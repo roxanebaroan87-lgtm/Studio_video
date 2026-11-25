@@ -135,3 +135,24 @@ b { font-weight: 700; color: #fff; }
 .cta-word { display: inline-block; background: var(--dark); color: #fff; font-family: "Playfair", serif; font-size: 40px; letter-spacing: .04em; padding: 2px 16px 6px; border-radius: 6px; }
 .chip { position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border-radius: 999px; font-size: 11px; padding: 7px 14px; box-shadow: 0 4px 14px rgba(80, 30, 50, .12); white-space: nowrap; }
 .chip.dark { background: var(--accent); color: #fff; font-weight: 500; }
+
+/* ---------- publicité produit ---------- */
+.kicker { position: absolute; left: 0; right: 0; text-align: center; font-size: 11px; letter-spacing: .28em; color: var(--accent); font-weight: 500; }
+.arch { position: absolute; left: 100px; top: 262px; width: 340px; height: 384px; border-radius: 170px 170px 20px 20px; overflow: hidden;
+  background: linear-gradient(180deg, var(--arch1, #E9D3BD), var(--arch2, #D3B08F)); box-shadow: 0 20px 40px rgba(59, 36, 24, .18); }
+.arch > svg { position: absolute; left: -10px; bottom: -6px; width: 360px; height: 468px; }
+.tag { position: absolute; background: #fff; border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: 0 8px 20px rgba(59, 36, 24, .15); color: var(--ink); }
+.tag b { color: var(--accent); }
+.ingr { position: absolute; left: 40px; right: 40px; height: 100px; background: #fff; border-radius: 16px; display: flex; align-items: center; gap: 18px; padding: 0 20px; box-shadow: 0 10px 26px rgba(59, 36, 24, .10); }
+.ingr .disc { flex: none; width: 66px; height: 66px; border-radius: 50%; background: var(--circle); display: flex; align-items: center; justify-content: center; font-size: 34px; }
+.ingr .n { font-family: "Playfair", serif; font-size: 23px; }
+.ingr .d { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.rstep { position: absolute; top: 268px; width: 148px; height: 300px; background: #fff; border-radius: 74px 74px 16px 16px; text-align: center; padding: 22px 12px; box-shadow: 0 10px 26px rgba(59, 36, 24, .10); transition: none; }
+.rstep .num { font-family: "Playfair", serif; font-style: italic; font-size: 38px; color: var(--accent); }
+.rstep .ic { width: 64px; height: 64px; margin: 14px auto; border-radius: 50%; background: var(--circle); display: flex; align-items: center; justify-content: center; }
+.rstep .ic svg { width: 30px; height: 30px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rstep .n { font-family: "Playfair", serif; font-size: 21px; }
+.rstep .d { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.35; }
+.rstep.on { background: var(--dark); color: #fff; }
+.rstep.on .num { color: #F3D9BF; }
+.rstep.on .d { color: #E7D3C2; }

@@ -51,6 +51,12 @@
     chat: '<path d="M4 5h16v11H9l-5 4z"/>',
     scissors: '<circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="M8.5 8.5L20 19M8.5 15.5L20 5"/>',
     film: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+    drop: '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+    hand: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11M11 10V4.5a1.5 1.5 0 0 1 3 0V11M14 10.5V6a1.5 1.5 0 0 1 3 0v8a7 7 0 0 1-7 7h-.5A6.5 6.5 0 0 1 4 15.5V12a1.5 1.5 0 0 1 3 0v2"/>',
+    wave: '<path d="M3 9c3-3 6 3 9 0s6 3 9 0M3 15c3-3 6 3 9 0s6 3 9 0"/>',
+    cup: '<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3c0 2 2 2 2 4M12 3c0 2 2 2 2 4"/>',
+    leaf: '<path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15zM5 19l8-8"/>',
+    bag: '<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
     star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
   };
   const icon = name => `<svg viewBox="0 0 24 24">${ICONS[name] || ICONS.sparkle}</svg>`;
@@ -61,8 +67,9 @@
       ${[[22,18],[32,17],[42,19],[17,28],[27,27],[37,27],[47,28],[22,37],[32,36],[42,37],[27,46],[37,46],[32,55]]
         .map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="6.2" fill="${i % 3 ? '#A3254F' : '#8C1B42'}"/><circle cx="${x - 2}" cy="${y - 2}" r="1.8" fill="#E486A7" opacity=".7"/>`).join('')}
     </svg>`,
-    heart: `<svg viewBox="0 0 64 64"><path d="M32 54S8 40 8 23a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 17-24 31-24 31z" fill="#C2185B"/><ellipse cx="20" cy="22" rx="5" ry="3" fill="#fff" opacity=".35"/></svg>`,
+    heart: `<svg viewBox="0 0 64 64"><path d="M32 54S8 40 8 23a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 17-24 31-24 31z" style="fill:var(--accent)"/><ellipse cx="20" cy="22" rx="5" ry="3" fill="#fff" opacity=".35"/></svg>`,
     cherry: `<svg viewBox="0 0 64 64"><path d="M30 8c-4 12-12 22-14 32M30 8c4 12 10 20 18 30" stroke="#4f6b3a" stroke-width="3" fill="none"/><path d="M30 8c6-4 14-3 18 1-6 3-12 3-18-1z" fill="#7DA05B"/><circle cx="16" cy="44" r="11" fill="#B0124B"/><circle cx="46" cy="42" r="11" fill="#C2185B"/><circle cx="12" cy="40" r="3" fill="#fff" opacity=".4"/><circle cx="42" cy="38" r="3" fill="#fff" opacity=".4"/></svg>`,
+    bean: `<svg viewBox="-16 -16 32 32">${'<g transform="rotate(-25)"><ellipse rx="10" ry="13" fill="#4A2A18"/><path d="M0 -11 C -5 -4, 5 4, 0 11" stroke="#C99A6B" stroke-width="1.8" fill="none"/></g>'}</svg>`,
     star: `<svg viewBox="0 0 64 64"><path d="M32 6l7.6 16 17.4 2.2-12.8 12 3.3 17.3L32 45l-15.5 8.5 3.3-17.3L7 24.2 24.4 22z" fill="#E1B357"/></svg>`,
   };
 
@@ -293,12 +300,163 @@
     };
   };
 
+  // ---------- publicité produit (illustrations) ----------
+  function jarSVG(p) {
+    p = Object.assign({ name: 'CAFÉ GLOW', sub: 'gommage au café', jar: '#6B3F23', lid: '#2E1B12', label: '#EFE2CF', ink: '#3B2418' }, p || {});
+    return `<svg viewBox="0 0 120 120">
+      <rect x="14" y="8" width="92" height="24" rx="6" fill="${p.lid}"/>
+      <rect x="14" y="22" width="92" height="6" fill="#000" opacity=".15"/>
+      <rect x="8" y="28" width="104" height="86" rx="14" fill="${p.jar}"/>
+      <rect x="14" y="34" width="12" height="72" rx="6" fill="#fff" opacity=".18"/>
+      <rect x="22" y="46" width="76" height="50" rx="5" fill="${p.label}"/>
+      <text x="60" y="66" text-anchor="middle" font-family="Playfair" font-size="11" font-weight="500" fill="${p.ink}" letter-spacing=".3">${esc(p.name)}</text>
+      <line x1="38" x2="82" y1="72" y2="72" stroke="${p.ink}" stroke-width=".6" opacity=".5"/>
+      <text x="60" y="84" text-anchor="middle" font-family="Playfair" font-style="italic" font-size="8.5" fill="${p.ink}">${esc(p.sub)}</text>
+      <g transform="translate(60 91)"><ellipse rx="3.4" ry="2.3" fill="${p.jar}"/><path d="M-2.6 0 Q0 -0.8 2.6 0" stroke="${p.label}" stroke-width=".6" fill="none"/></g>
+    </svg>`;
+  }
+  const bean = (x, y, s = 1, r = 0, c = '#4A2A18') =>
+    `<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})"><ellipse rx="9" ry="12" fill="${c}"/><path d="M0 -10 C -4 -4, 4 4, 0 10" stroke="#C99A6B" stroke-width="1.6" fill="none" opacity=".7"/></g>`;
+
+  // Femme illustrée tenant le pot (style flat). Vue buste, 400×520.
+  function womanSVG(o) {
+    o = Object.assign({ skin: '#B97A56', skinShade: '#A0654A', hair: '#2A1810', top: '#F3E6D6', lips: '#8E3B3B' }, o || {});
+    return `<svg viewBox="0 0 400 520" class="woman">
+      <path d="M118 150 C 110 60, 290 50, 286 150 L 300 330 C 260 350, 140 350, 100 330 Z" fill="${o.hair}"/>
+      <rect x="178" y="200" width="44" height="70" rx="18" fill="${o.skinShade}"/>
+      <path d="M60 520 C 60 380, 100 300, 175 282 L 225 282 C 300 300, 340 380, 340 520 Z" fill="${o.skin}"/>
+      <path d="M70 520 C 74 430, 92 380, 120 360 C 170 384, 230 384, 280 360 C 308 380, 326 430, 330 520 Z" fill="${o.top}"/>
+      <path d="M120 360 C 170 384, 230 384, 280 360" stroke="#E2CDB4" stroke-width="3" fill="none"/>
+      <g class="head">
+        <ellipse cx="200" cy="160" rx="56" ry="68" fill="${o.skin}"/>
+        <ellipse cx="146" cy="166" rx="9" ry="14" fill="${o.skinShade}"/>
+        <ellipse cx="254" cy="166" rx="9" ry="14" fill="${o.skinShade}"/>
+        <circle cx="254" cy="184" r="4" fill="#E8C27A"/>
+        <g class="eyes"><path d="M168 162 q12 9 24 0" stroke="${o.hair}" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+          <path d="M208 162 q12 9 24 0" stroke="${o.hair}" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+        <path d="M166 146 q14 -7 26 -2 M208 144 q12 -5 26 2" stroke="${o.hair}" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M200 166 q-5 18 2 22" stroke="${o.skinShade}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <path class="mouth" d="M184 200 q16 12 32 0 q-16 5 -32 0z" fill="${o.lips}"/>
+        <ellipse cx="166" cy="188" rx="11" ry="6" fill="#E0805E" opacity=".35"/>
+        <ellipse cx="234" cy="188" rx="11" ry="6" fill="#E0805E" opacity=".35"/>
+        <path d="M144 150 C 140 80, 200 70, 230 96 C 250 86, 268 112, 258 150 C 248 120, 224 104, 196 108 C 170 112, 152 126, 144 150 Z" fill="${o.hair}"/>
+      </g>
+      <path d="M100 330 C 90 380, 84 440, 92 520 L 130 520 C 124 450, 126 400, 134 360 Z" fill="${o.skin}"/>
+      <g class="arm">
+        <path d="M282 300 C 340 330, 356 400, 332 420 C 316 400, 300 352, 268 330 Z" fill="${o.skin}"/>
+        <path d="M318 420 C 338 410, 334 330, 318 268 L 292 268 C 300 330, 300 400, 318 420 Z" fill="${o.skin}"/>
+        <g class="jar" transform="translate(250 168)">${jarSVG(o.jar).replace('<svg ', '<svg width="126" height="126" ')}</g>
+        <rect x="262" y="262" width="60" height="18" rx="9" fill="${o.skin}"/>
+        <rect x="266" y="276" width="52" height="16" rx="8" fill="${o.skinShade}"/>
+        <rect x="258" y="232" width="22" height="34" rx="11" fill="${o.skin}"/>
+      </g>
+    </svg>`;
+  }
+
+  SCENES.portrait = (root, s, cfg) => {
+    const title = el('div', 'title', md(s.title || 'Ta peau mérite\nun vrai *réveil*'), root); title.style.top = '176px';
+    const arch = el('div', 'arch', womanSVG(Object.assign({}, cfg.woman, { jar: cfg.product })), root);
+    const svg = $('svg', arch);
+    const badges = (s.badges || []).map((b, i) => {
+      const e = el('div', 'tag', md(b), root);
+      const pos = [[34, 330], [346, 540], [40, 520], [350, 300]][i % 4];
+      Object.assign(e.style, { left: pos[0] + 'px', top: pos[1] + 'px' });
+      return e;
+    });
+    const beans = el('div', 'abs', `<svg viewBox="0 0 540 960" style="width:540px;height:960px">${Array.from({ length: 8 }, (_, i) => `<g class="b" data-i="${i}">${bean(0, 0, .9 + rand(i) * .5, rand(i + 9) * 180)}</g>`).join('')}</svg>`, root);
+    Object.assign(beans.style, { left: 0, top: 0, pointerEvents: 'none' });
+    const badgeAt = s.badgeAt ?? 1.2, gap = s.badgeGap ?? .9;
+    return lt => {
+      pop(title, lt, .05, { y: 10 });
+      pop(arch, lt, .15, { y: 40, s0: .92, back: false });
+      // respiration, bras qui monte le pot, clignement
+      const head = $('.head', svg), arm = $('.arm', svg), eyes = $('.eyes', svg);
+      head.setAttribute('transform', `rotate(${Math.sin(lt * 1.3) * 2} 200 220)`);
+      const lift = easeBack(prog(lt, .3, .7));
+      arm.setAttribute('transform', `translate(0 ${lerp(60, 0, lift) + Math.sin(lt * 2.2) * 3}) rotate(${Math.sin(lt * 1.8) * 2.5} 318 420)`);
+      const bl = (lt % 3.1) > 2.95 ? .15 : 1;
+      eyes.setAttribute('transform', `translate(0 162) scale(1 ${bl}) translate(0 -162)`);
+      badges.forEach((b, i) => {
+        pop(b, lt, badgeAt + i * gap, { y: 12, s0: .5 });
+        b.style.transform += ` translateY(${Math.sin(lt * 2 + i) * 3}px)`;
+      });
+      beans.querySelectorAll('.b').forEach((g, i) => {
+        const y = ((lt * (60 + rand(i) * 50) + rand(i + 3) * 960) % 1000) - 40;
+        const x = 30 + rand(i + 5) * 480 + Math.sin(lt + i) * 10;
+        g.setAttribute('transform', `translate(${x} ${y}) rotate(${lt * 40 * (i % 2 ? 1 : -1)})`);
+        g.style.opacity = (s.beans === false ? 0 : .55) * prog(lt, .3, .6);
+      });
+    };
+  };
+
+  SCENES.product = (root, s, cfg) => {
+    const p = cfg.product || {};
+    const title = el('div', 'title', md(s.title || `*${p.name || 'Café Glow'}*`), root); title.style.top = '180px'; title.style.fontSize = '40px';
+    const sub = el('div', 'kicker', esc(s.subtitle || 'GOMMAGE CORPS AU CAFÉ'), root); sub.style.top = '232px';
+    const jar = el('div', 'abs', jarSVG(p), root);
+    Object.assign(jar.style, { left: '150px', top: '300px', width: '240px', height: '240px', filter: 'drop-shadow(0 22px 24px rgba(59,36,24,.35))' });
+    const sh = el('div', 'abs', '', root);
+    Object.assign(sh.style, { left: '170px', top: '560px', width: '200px', height: '22px', borderRadius: '50%', background: 'rgba(59,36,24,.18)' });
+    const beansEl = el('div', 'abs', `<svg viewBox="0 0 540 960" style="width:540px;height:960px">${Array.from({ length: 14 }, (_, i) => `<g class="b">${bean(0, 0, .8 + rand(i) * .7, 0)}</g>`).join('')}</svg>`, root);
+    Object.assign(beansEl.style, { left: 0, top: 0 });
+    return lt => {
+      pop(title, lt, .4, { y: 10 });
+      pop(sub, lt, .6, { y: 8, back: false });
+      const p1 = easeBack(prog(lt, 0, .7));
+      jar.style.opacity = clamp(prog(lt, 0, .3));
+      jar.style.transform = `translateY(${lerp(120, 0, p1) + Math.sin(lt * 2) * 6}px) rotate(${lerp(-25, 0, p1) + Math.sin(lt * 1.5) * 3}deg) scale(${lerp(.6, 1, p1)})`;
+      sh.style.transform = `scale(${.85 + Math.sin(lt * 2) * .06})`;
+      // explosion de grains de café autour du pot
+      beansEl.querySelectorAll('.b').forEach((g, i) => {
+        const a = (i / 14) * Math.PI * 2 + rand(i) * .4;
+        const k = easeOut(prog(lt, .35, 1.1));
+        const r = lerp(10, 150 + rand(i + 2) * 70, k);
+        const x = 270 + Math.cos(a) * r, y = 420 + Math.sin(a) * r * 1.15 + Math.max(0, lt - 1.2) * 18 * (1 + rand(i));
+        g.setAttribute('transform', `translate(${x} ${y}) rotate(${a * 57 + lt * 50})`);
+        g.style.opacity = clamp(prog(lt, .35, .15)) * (1 - prog(lt, s.duration - .6, .5));
+      });
+    };
+  };
+
+  SCENES.ingredients = (root, s) => {
+    const title = el('div', 'title', md(s.title || '3 ingrédients, *c’est tout*'), root); title.style.top = '178px';
+    const items = (s.items || []).slice(0, 3).map((it, i) => {
+      const e = el('div', 'ingr', `<div class="disc">${it.emoji ? `<span>${esc(it.emoji)}</span>` : ''}</div><div><div class="n">${md(it.name)}</div><div class="d">${md(it.desc || '')}</div></div>`, root);
+      e.style.top = `${262 + i * 118}px`;
+      if (it.color) $('.disc', e).style.background = it.color;
+      return e;
+    });
+    const at = s.itemsAt ?? .6, gap = s.itemGap ?? (s.duration ? (s.duration - at - .6) / 3 : 1);
+    return lt => {
+      pop(title, lt, 0, { y: 10 });
+      items.forEach((e, i) => { const p = easeBack(prog(lt, at + i * gap, .5)); e.style.opacity = clamp(p * 2); e.style.transform = `translateX(${lerp(-60, 0, p)}px)`; });
+    };
+  };
+
+  SCENES.routine = (root, s) => {
+    const title = el('div', 'title', md(s.title || 'Ta *routine*'), root); title.style.top = '178px';
+    const steps = (s.steps || []).slice(0, 3).map((st, i) => {
+      const e = el('div', 'rstep', `<div class="num">${i + 1}</div><div class="ic">${icon(st.icon || 'sparkle')}</div><div class="n">${md(st.name)}</div><div class="d">${md(st.desc || '')}</div>`, root);
+      e.style.left = `${36 + i * 160}px`;
+      return e;
+    });
+    const at = s.stepsAt ?? .6, gap = s.stepGap ?? (s.duration ? (s.duration - at - .6) / 3 : 1);
+    return lt => {
+      pop(title, lt, 0, { y: 10 });
+      steps.forEach((e, i) => {
+        pop(e, lt, at + i * gap, { y: 40, s0: .7 });
+        const active = lt >= at + i * gap && (i === steps.length - 1 || lt < at + (i + 1) * gap);
+        e.classList.toggle('on', active);
+      });
+    };
+  };
+
   // ---------- montage ----------
   const M = { cfg: null, scenes: [], captions: [], duration: 0, totalSteps: 5 };
 
   function applyTheme(cfg) {
     const th = cfg.theme || {};
-    const map = { background: '--bg', circle: '--circle', accent: '--accent', dark: '--dark', text: '--ink', grid: '--grid' };
+    const map = { background: '--bg', circle: '--circle', accent: '--accent', dark: '--dark', text: '--ink', grid: '--grid', muted: '--muted', arch1: '--arch1', arch2: '--arch2' };
     for (const k in map) if (th[k]) document.documentElement.style.setProperty(map[k], th[k]);
   }
 
