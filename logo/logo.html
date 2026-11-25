@@ -95,13 +95,13 @@ function luxeBackground(w, h, dark) {
   const defs = mk('defs', {});
   // satin
   const f = mk('filter', { id: 'satin', x: 0, y: 0, width: '100%', height: '100%', 'color-interpolation-filters': 'sRGB' }, defs);
-  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.0009 0.0040', numOctaves: 3, seed: 11, result: 'n' }, f);
+  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.0011 0.0052', numOctaves: 3, seed: 11, result: 'n' }, f);
   const li = mk('feDiffuseLighting', { in: 'n', surfaceScale: 34, diffuseConstant: 1.05, 'lighting-color': '#fff', result: 'l' }, f);
   mk('feDistantLight', { azimuth: 225, elevation: 42 }, li);
   mk('feGaussianBlur', { stdDeviation: 5 }, f);
   mk('feColorMatrix', { type: 'matrix', values: dark
     ? '.62 0 0 0 .02  .05 0 0 0 0  .10 0 0 0 .02  0 0 0 1 0'
-    : '.30 0 0 0 .72  .42 0 0 0 .56  .42 0 0 0 .55  0 0 0 1 0' }, f);
+    : '.14 0 0 0 .86  .26 0 0 0 .72  .26 0 0 0 .71  0 0 0 1 0' }, f);
   // flous
   [3, 8, 16, 28].forEach(s => { const b = mk('filter', { id: 'b' + s, x: '-50%', y: '-50%', width: '200%', height: '200%' }, defs); mk('feGaussianBlur', { stdDeviation: s }, b); });
   // dégradés pétales
@@ -135,7 +135,7 @@ function luxeBackground(w, h, dark) {
     mk('path', { d: 'M8 2 C 40 -10, 80 -14, 108 -4', stroke: '#fff', 'stroke-opacity': .25, 'stroke-width': 3, fill: 'none' }, g);
   });
   // voile (comme le lavis blanc du modèle) + vignettage + cadre fin
-  mk('rect', { width: w, height: h, fill: dark ? '#2A0009' : '#FFFFFF', opacity: dark ? .28 : .30 }, bg);
+  mk('rect', { width: w, height: h, fill: dark ? '#2A0009' : '#FFFFFF', opacity: dark ? .28 : .42 }, bg);
   mk('rect', { width: w, height: h, fill: 'url(#vign)' }, bg);
   mk('rect', { x: 38, y: 38, width: w - 76, height: h - 76, fill: 'none', stroke: dark ? '#fff' : '#5A0A17', 'stroke-opacity': dark ? .35 : .28, 'stroke-width': 1.2 }, bg);
   mk('rect', { x: 50, y: 50, width: w - 100, height: h - 100, fill: 'none', stroke: dark ? '#fff' : '#5A0A17', 'stroke-opacity': dark ? .18 : .14, 'stroke-width': .8 }, bg);
