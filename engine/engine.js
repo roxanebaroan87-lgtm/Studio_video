@@ -524,6 +524,42 @@
     };
   };
 
+  // Slogan final, ambiance fêtes (confettis dorés)
+  SCENES.slogan = (root, s) => {
+    const top = el('div', 'slogan-top', md(s.top || ''), root);
+    const lines = String(s.slogan || '').split('\n').map((l, i) => {
+      const e = el('div', 'slogan-line', `<span>${md(l)}</span>`, root);
+      e.style.top = `${300 + i * 74}px`;
+      return e;
+    });
+    const pills = (s.pills || []).map((p, i) => {
+      const e = el('div', 'chip' + (i === 0 ? ' dark' : ''), md(p), root);
+      e.style.top = `${320 + lines.length * 74 + 20 + i * 50}px`; e.dataset.base = 'translateX(-50%)';
+      return e;
+    });
+    const conf = el('div', 'abs', `<svg viewBox="0 0 540 960" style="width:540px;height:960px">${Array.from({ length: 34 }, (_, i) => {
+      const c = ['#E2B04A', '#F6D58A', '#B06A17', '#FFFFFF', '#C8862A'][i % 5];
+      return i % 3 ? `<rect class="cf" x="-4" y="-7" width="8" height="14" rx="2" fill="${c}"/>` : `<path class="cf" d="M0 -8l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="${c}"/>`;
+    }).join('')}</svg>`, root);
+    Object.assign(conf.style, { left: 0, top: '-64px', pointerEvents: 'none' });
+    root.insertBefore(conf, root.firstChild);
+    return lt => {
+      pop(top, lt, .05, { y: 14 });
+      lines.forEach((e, i) => {
+        pop(e, lt, (s.sloganAt ?? .5) + i * .35, { y: 20, s0: .5 });
+        e.style.transform += ` rotate(${(i % 2 ? 1 : -1) * 1.5}deg)`;
+      });
+      pills.forEach((e, i) => pop(e, lt, (s.pillsAt ?? 1.6) + i * .4, { y: 10, s0: .6 }));
+      conf.querySelectorAll('.cf').forEach((c, i) => {
+        const sp = 70 + rand(i) * 90;
+        const y = ((lt + rand(i + 7) * 12) * sp) % 1060 - 50;
+        const x = rand(i + 3) * 540 + Math.sin(lt * 1.5 + i) * 18;
+        c.setAttribute('transform', `translate(${x} ${y}) rotate(${lt * 160 * (i % 2 ? 1 : -1) + i * 20})`);
+        c.style.opacity = prog(lt, .2, .5) * .9;
+      });
+    };
+  };
+
   // ---------- montage ----------
   const M = { cfg: null, scenes: [], captions: [], duration: 0, totalSteps: 5 };
 

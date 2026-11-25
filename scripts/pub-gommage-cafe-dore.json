@@ -1,0 +1,321 @@
+{
+  "fps": 30,
+  "brand": {
+    "name": "Gommage au café doré",
+    "handle": "WhatsApp 07 77 05 76 83"
+  },
+  "sticker": "bean",
+  "avatar": null,
+  "product": {
+    "name": "CAFÉ DORÉ",
+    "sub": "gommage corps",
+    "jar": "#F4F0EA",
+    "lid": "#E6DFD6",
+    "label": "#C8862A",
+    "ink": "#FFFFFF"
+  },
+  "woman": {
+    "skin": "#7A4B30",
+    "skinShade": "#633B25",
+    "hair": "#1E120B",
+    "top": "#F3E6D6",
+    "lips": "#7A2A2A"
+  },
+  "theme": {
+    "background": "#F6EFE6",
+    "grid": "rgba(140, 100, 70, .10)",
+    "circle": "#F0D9B5",
+    "accent": "#B06A17",
+    "dark": "#3B2418",
+    "text": "#2B1B12",
+    "muted": "#8D7767",
+    "arch1": "#F1DDBF",
+    "arch2": "#D9A867"
+  },
+  "audio": {
+    "musique": null,
+    "volumeMusique": 0.2,
+    "bruitages": true
+  },
+  "scenes": [
+    {
+      "type": "photo",
+      "image": "assets/gel-cafe.jpg",
+      "title": "Le gommage\n*au café doré*",
+      "tags": [
+        {
+          "text": "✦ peau **lumineuse**",
+          "x": 290,
+          "y": 380
+        },
+        {
+          "text": "✦ teint **unifié**",
+          "x": 314,
+          "y": 470
+        },
+        {
+          "text": "✦ adieu les **taches**",
+          "x": 280,
+          "y": 560
+        }
+      ],
+      "tagAt": 2.4,
+      "tagGap": 0.9,
+      "icon": "eye",
+      "voix": [
+        {
+          "texte": "Regardez-moi cette texture !",
+          "sous_titres": [
+            "Regardez-moi",
+            "cette **texture** !"
+          ]
+        },
+        {
+          "texte": "Le gommage au café doré, qui va illuminer votre peau.",
+          "sous_titres": [
+            "le gommage au **café doré**",
+            "qui va **illuminer**",
+            "votre peau"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "portrait",
+      "title": "Un teint *unifié*",
+      "badges": [
+        "✦ adieu les **taches**",
+        "✦ adieu les **boutons**",
+        "✦ adieu l’**acné**"
+      ],
+      "badgeAt": 2.3,
+      "badgeGap": 0.8,
+      "icon": "sparkle",
+      "voix": [
+        {
+          "texte": "Il unifie votre teint,",
+          "sous_titres": [
+            "il **unifie** votre teint"
+          ]
+        },
+        {
+          "texte": "et vous débarrasse des taches, des boutons, et de l'acné.",
+          "sous_titres": [
+            "vous débarrasse des **taches**",
+            "des **boutons**",
+            "et de l'**acné**"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ingredients",
+      "title": "Pourquoi on *l’adore*",
+      "items": [
+        {
+          "emoji": "✨",
+          "name": "Il *illumine*",
+          "desc": "une peau qui brille de mille feux"
+        },
+        {
+          "emoji": "🤎",
+          "name": "Il *unifie*",
+          "desc": "un teint net, uniforme, éclatant"
+        },
+        {
+          "emoji": "🧼",
+          "name": "Il *purifie*",
+          "desc": "taches, boutons et acné, c’est fini"
+        }
+      ],
+      "icon": "star",
+      "voix": [
+        {
+          "texte": "Une peau douce, nette, éclatante.",
+          "sous_titres": [
+            "une peau **douce**",
+            "**nette**",
+            "**éclatante**"
+          ]
+        },
+        {
+          "texte": "Un vrai soin de star, à petit prix !",
+          "sous_titres": [
+            "un vrai **soin de star**",
+            "à **petit prix** !"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "routine",
+      "title": "Sous la *douche*",
+      "steps": [
+        {
+          "icon": "drop",
+          "name": "Mouillez",
+          "desc": "la peau sous l'eau tiède"
+        },
+        {
+          "icon": "hand",
+          "name": "Massez",
+          "desc": "en petits cercles"
+        },
+        {
+          "icon": "wave",
+          "name": "Rincez",
+          "desc": "et admirez l'éclat"
+        }
+      ],
+      "icon": "drop",
+      "voix": [
+        {
+          "texte": "Mouillez, massez, rincez,",
+          "sous_titres": [
+            "**mouillez**",
+            "**massez**",
+            "**rincez**"
+          ]
+        },
+        {
+          "texte": "et admirez le résultat dès la première utilisation.",
+          "sous_titres": [
+            "et admirez le **résultat**",
+            "dès la **première utilisation**"
+          ]
+        }
+      ],
+      "stepsAt": 0.35,
+      "stepGap": 0.5
+    },
+    {
+      "type": "portrait",
+      "title": "Tout le monde va\nvous demander *le secret*",
+      "badges": [
+        "✦ peau **éclatante**",
+        "✦ teint **unifié**",
+        "✦ zéro **tache**"
+      ],
+      "badgeAt": 0.6,
+      "badgeGap": 0.9,
+      "icon": "heart",
+      "voix": [
+        {
+          "texte": "Croyez-moi, tout le monde va vous demander votre secret !",
+          "sous_titres": [
+            "tout le monde va vous",
+            "demander **votre secret** !"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "offer",
+      "title": "Les *prix*",
+      "currency": "F",
+      "offers": [
+        {
+          "qty": 1,
+          "label": "1 pot",
+          "price": 6000,
+          "at": 0.4
+        },
+        {
+          "qty": 2,
+          "label": "2 *pots*",
+          "price": 10000,
+          "highlight": true,
+          "ribbon": "MEILLEURE OFFRE",
+          "at": 2.4
+        }
+      ],
+      "gift": {
+        "title": "Gant de gommage **OFFERT**",
+        "desc": "à partir de 2 pots achetés",
+        "at": 4.2
+      },
+      "icon": "bag",
+      "voix": [
+        {
+          "texte": "Six mille francs le pot.",
+          "sous_titres": [
+            "**6 000 F** le pot"
+          ]
+        },
+        {
+          "texte": "Et deux pots, seulement dix mille francs !",
+          "sous_titres": [
+            "et **2 pots**",
+            "seulement **10 000 F** !"
+          ]
+        },
+        {
+          "texte": "À partir de deux pots achetés, votre gant de gommage est offert !",
+          "sous_titres": [
+            "dès **2 pots** achetés",
+            "votre **gant de gommage**",
+            "est **offert** 🎁"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "whatsapp",
+      "title": "Commandez sur\n*WhatsApp*",
+      "number": "07 77 05 76 83",
+      "numberAt": 1.0,
+      "chips": [
+        "1 pot **6 000 F**",
+        "2 pots **10 000 F** + gant offert 🎁"
+      ],
+      "chipsAt": 3.2,
+      "icon": "chat",
+      "voix": [
+        {
+          "texte": "Pour commander, c'est sur WhatsApp, au : zéro sept, soixante-dix-sept, zéro cinq, soixante-seize, quatre-vingt-trois.",
+          "sous_titres": [
+            "pour **commander**",
+            "c'est sur **WhatsApp**",
+            "**07 77 05 76 83**"
+          ]
+        },
+        {
+          "texte": "N'hésitez pas, vous êtes à la bonne adresse !",
+          "sous_titres": [
+            "**n'hésitez pas**",
+            "vous êtes à la **bonne adresse** !"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "slogan",
+      "top": "Les fêtes de fin d’année\n*approchent…*",
+      "slogan": "Viens *laver*\nton teint !",
+      "sloganAt": 3.6,
+      "pills": [
+        "Commandez maintenant",
+        "WhatsApp **07 77 05 76 83**"
+      ],
+      "pillsAt": 4.5,
+      "icon": "star",
+      "voix": [
+        {
+          "texte": "Les fêtes de fin d'année approchent : passez vos commandes maintenant !",
+          "sous_titres": [
+            "les **fêtes** approchent",
+            "passez vos commandes",
+            "**maintenant** !"
+          ]
+        },
+        {
+          "texte": "Viens laver ton teint !",
+          "sous_titres": [
+            "**Viens laver ton teint !**"
+          ]
+        }
+      ],
+      "voixFin": 2.0
+    }
+  ]
+}

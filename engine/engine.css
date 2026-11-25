@@ -196,3 +196,9 @@ body:not(.no-avatar) .photo { top: 0; height: 960px; }
 .title.light { left: 50%; right: auto; transform-origin: 50% 50%; background: rgba(43, 27, 18, .78); padding: 10px 22px 14px; border-radius: 14px; white-space: nowrap; }
 .photo ~ .tag { font-size: 15px; padding: 9px 16px; }
 .chip { font-size: 13px; padding: 8px 16px; }
+
+/* slogan */
+.slogan-top { position: absolute; left: 30px; right: 30px; top: 196px; text-align: center; font-family: "Playfair", serif; font-size: 28px; line-height: 1.2; }
+.slogan-line { position: absolute; left: 0; right: 0; text-align: center; }
+.slogan-line span { display: inline-block; background: var(--dark); color: #fff; font-family: "Playfair", serif; font-size: 46px; line-height: 1.1; padding: 4px 20px 10px; border-radius: 8px; box-shadow: 0 10px 24px rgba(59, 36, 24, .25); }
+.slogan-line span em { color: #F6C66B; }
