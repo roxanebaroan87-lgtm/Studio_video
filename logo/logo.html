@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Logo By Lau</title>
+<style>
+@font-face { font-family: Bodoni; src: url(fonts/bodoni-moda-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Bodoni; src: url(fonts/bodoni-moda-latin-400-italic.woff2); font-weight: 400; font-style: italic; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-300-italic.woff2); font-weight: 300; font-style: italic; }
+@font-face { font-family: Cormorant; src: url(fonts/cormorant-garamond-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Josefin; src: url(fonts/josefin-sans-latin-300-normal.woff2); font-weight: 300; }
+:root { --bdx: #5A0A17; --ink: var(--bdx); --line: rgba(90, 10, 23, .42); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: transparent; }
+body { overflow: hidden; }
+.page { position: relative; overflow: hidden; }
+.dark { --ink: #FFFFFF; --line: rgba(255, 255, 255, .45); }
+svg text { fill: var(--ink); }
+.by { font-family: Cormorant; font-style: italic; font-weight: 300; }
+.lau { font-family: Bodoni; font-weight: 400; }
+.sans { font-family: Josefin; font-weight: 300; }
+.serif { font-family: Cormorant; font-weight: 500; }
+</style></head>
+<body>
+<div class="page" id="page"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<script>
+const v = new URLSearchParams(location.search).get('v') || 'presentation';
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('svg'), page = document.getElementById('page');
+const BDX = '#5A0A17';
+const mk = (tag, attrs, parent = svg, text) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  parent.appendChild(e); return e;
+};
+const size = (w, h) => { page.style.width = w + 'px'; page.style.height = h + 'px'; svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', `0 0 ${w} ${h}`); };
+
+// ---------- logo principal : "by" / "Lau" + ENTREPRISE vertical + arc ----------
+function mainLogo(g, opt = {}) {
+  const by = mk('text', { class: 'by', 'font-size': 330, x: 0, y: 0 }, g, 'by');
+  const lau = mk('text', { class: 'lau', 'font-size': 330, 'letter-spacing': -6, x: 0, y: 0 }, g, 'Lau');
+  // placement : "by" au-dessus, décalé ; "Lau" en dessous, légère superposition
+  const bb = by.getBBox();
+  lau.setAttribute('x', 0); lau.setAttribute('y', 560);
+  by.setAttribute('x', 150); by.setAttribute('y', 300);
+  const lb = lau.getBBox(), b2 = by.getBBox();
+  // filet + ENTREPRISE vertical
+  const xr = lb.x + lb.width + 46;
+  const top = b2.y + 40, bottom = lb.y + lb.height - 8;
+  mk('line', { x1: xr, y1: top, x2: xr, y2: bottom, stroke: 'var(--line)', 'stroke-width': 1.6 }, g);
+  const vert = mk('g', { transform: `translate(${xr + 30} ${top}) rotate(90)` }, g);
+  const ent = mk('text', { class: 'sans', 'font-size': 44, 'letter-spacing': 0, x: 0, y: 0 }, vert, 'ENTREPRISE');
+  // espacer les lettres pour remplir la hauteur du filet
+  const len = bottom - top, w0 = ent.getComputedTextLength();
+  ent.setAttribute('letter-spacing', Math.max(4, (len - w0) / 9.6));
+  ent.setAttribute('y', 0);
+  // arc "bienvenue chez vous" autour du "b"
+  const cx = b2.x + 95, cy = b2.y + b2.height * .5, r = b2.height * .6;
+  const a0 = 185 * Math.PI / 180, a1 = 330 * Math.PI / 180;
+  const p = `M ${cx + r * Math.cos(a0)} ${cy + r * Math.sin(a0)} A ${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cy + r * Math.sin(a1)}`;
+  const id = 'arc' + Math.random().toString(36).slice(2);
+  mk('path', { id, d: p, fill: 'none' }, g);
+  const t = mk('text', { class: 'sans', 'font-size': 38, 'letter-spacing': 6 }, g);
+  mk('textPath', { href: '#' + id, startOffset: '50%', 'text-anchor': 'middle' }, t, 'bienvenue chez vous');
+  // petit losange
+  return g.getBBox();
+}
+
+function center(g, w, h, dx = 0, dy = 0) {
+  const b = g.getBBox();
+  g.setAttribute('transform', `translate(${(w - b.width) / 2 - b.x + dx} ${(h - b.height) / 2 - b.y + dy})`);
+}
+
+// ---------- monogramme rond ----------
+function monogram(g, R) {
+  mk('circle', { cx: 0, cy: 0, r: R, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 2.2 }, g);
+  mk('circle', { cx: 0, cy: 0, r: R - 14, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1 }, g);
+  mk('circle', { cx: 0, cy: 0, r: R * .62, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1 }, g);
+  const id = 'c' + Math.random().toString(36).slice(2);
+  const rr = R * .81;
+  mk('path', { id, d: `M ${-rr} 0 A ${rr} ${rr} 0 1 1 ${rr} 0 A ${rr} ${rr} 0 1 1 ${-rr} 0`, fill: 'none' }, g);
+  const t = mk('text', { class: 'sans', 'font-size': R * .1, 'letter-spacing': R * .028 }, g);
+  mk('textPath', { href: '#' + id, startOffset: '0%' }, t, 'BY LAU  ✦  ENTREPRISE  ✦  BIENVENUE CHEZ VOUS  ✦ ');
+  // ajuster pour faire tout le tour
+  const L = 2 * Math.PI * rr, l0 = t.getComputedTextLength(), n = t.textContent.length;
+  t.setAttribute('letter-spacing', R * .028 + (L - l0) / n);
+  g.querySelector('textPath').setAttribute('startOffset', '-1%');
+  const B = mk('text', { class: 'lau', 'font-size': R * .78, 'text-anchor': 'middle', x: -R * .14, y: R * .26 }, g, 'B');
+  const Lt = mk('text', { class: 'by', 'font-size': R * .86, 'text-anchor': 'middle', x: R * .2, y: R * .34 }, g, 'L');
+}
+
+function band(w, h, bw, color) { mk('rect', { x: w - bw, y: 0, width: bw, height: h, fill: color }); }
+
+document.fonts.ready.then(() => {
+  if (v === 'presentation') {
+    size(1080, 1350);
+    page.style.background = 'radial-gradient(110% 80% at 30% 35%, #FFFFFF 0%, #F7EFEB 58%, #EEE0DA 100%)';
+    band(1080, 1350, 108, BDX);
+    const g = mk('g', {}); mainLogo(g); center(g, 972, 1350, 0, -10);
+  } else if (v === 'logo') {               // transparent, bordeaux
+    size(1600, 1400);
+    const g = mk('g', {}); mainLogo(g); center(g, 1600, 1400);
+  } else if (v === 'logo-blanc') {         // blanc sur bordeaux
+    size(1600, 1400); page.classList.add('dark'); page.style.background = BDX;
+    const g = mk('g', {}); mainLogo(g); center(g, 1600, 1400);
+  } else if (v === 'monogramme') {         // photo de profil
+    size(1080, 1080); page.classList.add('dark'); page.style.background = BDX;
+    const g = mk('g', { transform: 'translate(540 540)' }); monogram(g, 400);
+  } else if (v === 'monogramme-clair') {
+    size(1080, 1080); page.style.background = '#FBF7F4';
+    const g = mk('g', { transform: 'translate(540 540)' }); monogram(g, 400);
+  } else if (v === 'carte') {              // carte de visite recto/verso
+    size(1050, 1300); page.style.background = '#E9DFDA';
+    const rect = (y, fill) => mk('rect', { x: 75, y, width: 900, height: 520, rx: 10, fill, filter: 'url(#sh)' });
+    const d = mk('defs', {}); const f = mk('filter', { id: 'sh', x: '-10%', y: '-10%', width: '120%', height: '130%' }, d);
+    mk('feDropShadow', { dx: 0, dy: 14, stdDeviation: 18, 'flood-color': '#3a0a12', 'flood-opacity': .22 }, f);
+    rect(80, BDX); rect(700, '#FBF7F4');
+    const g1 = mk('g', { class: 'dark' }); g1.style.setProperty('--ink', '#fff'); g1.style.setProperty('--line', 'rgba(255,255,255,.45)');
+    mainLogo(g1); const b1 = g1.getBBox(); const s1 = 380 / b1.height;
+    g1.setAttribute('transform', `translate(${525 - (b1.x + b1.width / 2) * s1} ${340 - (b1.y + b1.height / 2) * s1}) scale(${s1})`);
+    const g2 = mk('g', { transform: 'translate(255 960)' }); monogram(g2, 150);
+    const tx = (y, s, cls, txt, ls = 2) => mk('text', { x: 480, y, class: cls, 'font-size': s, 'letter-spacing': ls }, svg, txt);
+    tx(900, 46, 'lau', 'By Lau', 1);
+    tx(940, 20, 'sans', 'ENTREPRISE', 7);
+    mk('line', { x1: 480, x2: 880, y1: 968, y2: 968, stroke: 'var(--line)' });
+    tx(1010, 22, 'sans', 'WhatsApp  ·  votre numéro', 1);
+    tx(1045, 22, 'sans', '@bylau  ·  votre ville', 1);
+    tx(1092, 26, 'by', 'Bienvenue chez vous', 0);
+  }
+  window.READY = true;
+});
+</script>
+</body></html>
